@@ -95,7 +95,7 @@ class MQ2():
             print("MQ2 wire loose...")
             time.sleep(1)
             count += 1
-        if (count = 3):
+        if (count == 3):
             print("MQ2 wire loose timeout, try again later...")
             return 0.1;
         return float(self.RL_VALUE*(1023.0-raw_adc)/float(raw_adc));
