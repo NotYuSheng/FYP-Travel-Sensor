@@ -220,22 +220,26 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         currentHumidity = dht11.humidity
         
         # Temperature Alerts
-        advisoryMessage = "🚨AUTOMATED ALERT: \n" + getTemperatureAdvMsg(currentTemperature)
-        
-        if (datetime.now() - last_temperature_alert_time).total_seconds() >= TEMPERATURE_COOLDOWN_PERIOD:
-            await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=temperatureInlineKeyboard)
-            last_temperature_alert_time = datetime.now()
+        if currentTemperature >= 31:
+            
+            advisoryMessage = "🚨AUTOMATED ALERT: \n" + getTemperatureAdvMsg(currentTemperature)
+            
+            if (datetime.now() - last_temperature_alert_time).total_seconds() >= TEMPERATURE_COOLDOWN_PERIOD:
+                await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=temperatureInlineKeyboard)
+                last_temperature_alert_time = datetime.now()
         
         # Humidity Alerts
-        advisoryMessage = "🚨AUTOMATED ALERT: \n" + getHumidityAdvMsg(currentHumidity)
-        
-        if (datetime.now() - last_humidity_alert_time).total_seconds() >= HUMIDITY_COOLDOWN_PERIOD:
-            await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=humidityInlineKeyboard)
-            last_humidity_alert_time = datetime.now()
+        if currentHumidity < 20 or currentHumidity >= 60:
+            advisoryMessage = "🚨AUTOMATED ALERT: \n" + getHumidityAdvMsg(currentHumidity)
+            
+            if (datetime.now() - last_humidity_alert_time).total_seconds() >= HUMIDITY_COOLDOWN_PERIOD:
+                await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=humidityInlineKeyboard)
+                last_humidity_alert_time = datetime.now()
             
     #TODO Add air quality and smoke here
     except Exception as e:
         print(f"Error code #1: An error occurred: {e}")
+        print(f"Note: Errors happen fairly often, DHT11's are hard to read, don't worry and just requery.")
     return
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
