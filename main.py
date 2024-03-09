@@ -424,5 +424,4 @@ if __name__ == "__main__":
 Reference Material(s)
 Telegram Bot                        https://docs.python-telegram-bot.org/en/v20.5/examples.html
 DHT11 example                       https://github.com/szazo/DHT11_Python
-MQ135 gas sensor                    https://tutorials-raspberrypi.com/configure-and-read-out-the-raspberry-pi-gas-sensor-mq-x/
 """
