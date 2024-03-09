@@ -222,14 +222,14 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         # Temperature Alerts
         advisoryMessage = "🚨AUTOMATED ALERT: \n" + getTemperatureAdvMsg(currentTemperature)
         
-        if datetime.now() - timedelta(seconds=last_temperature_alert_time) >= TEMPERATURE_COOLDOWN_PERIOD:
+        if datetime.now() - last_temperature_alert_time >= TEMPERATURE_COOLDOWN_PERIOD:
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=temperatureInlineKeyboard)
             last_temperature_alert_time = datetime.now()
         
         # Humidity Alerts
         advisoryMessage = "🚨AUTOMATED ALERT: \n" + getHumidityAdvMsg(currentHumidity)
         
-        if datetime.now() - timedelta(seconds=last_humidity_alert_time) >= HUMIDITY_COOLDOWN_PERIOD:
+        if datetime.now() - last_humidity_alert_time >= HUMIDITY_COOLDOWN_PERIOD:
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=humidityInlineKeyboard)
             last_humidity_alert_time = datetime.now()
             
