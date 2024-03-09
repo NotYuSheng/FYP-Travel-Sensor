@@ -240,8 +240,6 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=humidityInlineKeyboard)
             last_humidity_alert_time = datetime.now()
             
-    except:
-        continue
     #TODO Add air quality and smoke here
     """
     # Read sensor data from CH7 of MCP3008
