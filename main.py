@@ -426,7 +426,7 @@ if __name__ == "__main__":
     # MQ135 Gas Sensor Calibration + Initilization
     mq2 = MQ2(MQ2_MCP3008_PIN);
     mq135 = MQ135(MQ135_MCP3008_PIN);
-    
+    print("Initialization complete!")    
     main()
     
 """
