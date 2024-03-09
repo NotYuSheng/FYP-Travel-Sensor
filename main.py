@@ -295,7 +295,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             try:
                 currentTemperature = dht11.temperature
                 advisoryMessage = getTemperatureAdvMsg(currentTemperature)
-                last_temperature_alert_time = TEMPERATURE_COOLDOWN_PERIOD;
+                last_temperature_alert_time = datetime.now()
                 await update.message.reply_text(text=advisoryMessage, reply_markup=temperatureInlineKeyboard)
                 break
             except Exception as e:
@@ -314,7 +314,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             try:
                 currentHumidity = dht11.humidity
                 advisoryMessage = getHumidityAdvMsg(currentHumidity)
-                last_humidity_alert_time = HUMIDITY_COOLDOWN_PERIOD;
+                last_humidity_alert_time = datetime.now()
                 await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
                 break
             except Exception as e:
@@ -323,7 +323,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                     await update.message.reply_text(
                         "Failed to load temperature, possibly caused by loose wiring",
                     )
-                    break;
+                    break
                 await update.message.reply_text("Loading Humidity...")
                 count += 1
                 time.sleep(1)
@@ -415,8 +415,8 @@ if __name__ == "__main__":
     dht11 = adafruit_dht.DHT11(DHT11_PIN)
     
     # MQ135 Gas Sensor Calibration + Initilization
-    mq2 = MQ2(MQ2_MCP3008_PIN);
-    mq135 = MQ135(MQ135_MCP3008_PIN);
+    mq2 = MQ2(MQ2_MCP3008_PIN)
+    mq135 = MQ135(MQ135_MCP3008_PIN)
     print("Initialization complete!")    
     main()
     
