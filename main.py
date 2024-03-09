@@ -242,7 +242,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             
     #TODO Add air quality and smoke here
     except Exception: 
-        pass
+        print(Exception)
     return
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -309,6 +309,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 await update.message.reply_text(text=advisoryMessage, reply_markup=temperatureInlineKeyboard)
                 break
             except:
+                print(Exception)
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load temperature, possibly caused by loose wiring",
@@ -327,6 +328,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
                 break
             except:
+                print(Exception)
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load temperature, possibly caused by loose wiring",
@@ -343,6 +345,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 advisoryMessage = "ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (perc["ACETON"], perc["TOLUENO"], perc["ALCOHOL"], perc["CO2"], perc["NH4"], perc["CO"])
                 await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
             except:
+                print(Exception)
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load air quality, possibly caused by loose wiring",
@@ -406,8 +409,7 @@ def main() -> None:
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
         states={
-            COMMAND: [MessageHandler(filters.Regex("^(Temperature|Humidity|Air Quality|Alerts On/Off)$"), command)],
-            #COMMAND: [MessageHandler(filters.Regex("^(Temperature|Humidity|Air Quality|PSI|Alerts On/Off)$"), command)],
+            COMMAND: [MessageHandler(filters.Regex("^(Temperature|Humidity|Air Quality|Smoke|Alerts On/Off)$"), command)],
         },
         fallbacks=[CommandHandler("cancel", cancel)],
     )
