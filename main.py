@@ -222,14 +222,14 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         # Temperature Alerts
         advisoryMessage = "🚨AUTOMATED ALERT: \n" + getTemperatureAdvMsg(currentTemperature)
         
-        if datetime.now() - last_temperature_alert_time >= TEMPERATURE_COOLDOWN_PERIOD:
+        if (datetime.now() - last_temperature_alert_time).total_seconds() >= TEMPERATURE_COOLDOWN_PERIOD:
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=temperatureInlineKeyboard)
             last_temperature_alert_time = datetime.now()
         
         # Humidity Alerts
         advisoryMessage = "🚨AUTOMATED ALERT: \n" + getHumidityAdvMsg(currentHumidity)
         
-        if datetime.now() - last_humidity_alert_time >= HUMIDITY_COOLDOWN_PERIOD:
+        if (datetime.now() - last_humidity_alert_time).total_seconds() >= HUMIDITY_COOLDOWN_PERIOD:
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=humidityInlineKeyboard)
             last_humidity_alert_time = datetime.now()
             
@@ -395,8 +395,6 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 def main() -> None:
     """Run the bot."""
-    # Add conversation handler
-    
     # Create the Application and pass it your bot's token.
     application = Application.builder().token(TELEBOT_API_KEY).build()
     
@@ -414,9 +412,6 @@ def main() -> None:
     print("Intialization complete")
 
 if __name__ == "__main__":
-    # Create logger instance
-    #loggerInstance = loggerInit()
-    
     # DHT11 Temperature and Humidity Sensor Initialization
     dht11 = adafruit_dht.DHT11(DHT11_PIN)
     
