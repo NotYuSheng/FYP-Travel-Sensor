@@ -241,28 +241,8 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             last_humidity_alert_time = datetime.now()
             
     #TODO Add air quality and smoke here
-    """
-    # Read sensor data from CH7 of MCP3008
-    mq135_value = read_adc(7)
-    
-    # Convert the sensor value to PPM
-    ppm = round(convert_to_ppm(mq135_value))
-    
-    if (ppm > 0) and (ppm < 500):
-        # Air Quality Alerts
-        advisoryMessage = "🚨AUTOMATED ALERT: \n" + getAirQualityAdvMsg(ppm)
-        
-        if (datetime.now() - last_airquality_alert_time).total_seconds() >= AIRQUALITY_COOLDOWN_PERIOD:
-            await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
-            last_airquality_alert_time = datetime.now()
-    """
     
     return
-        
-    """
-    else:
-        await context.bot.send_message(job.chat_id, text="Alarm DHT11 Error")
-    """
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Starts the conversation and asks the user for their command."""
