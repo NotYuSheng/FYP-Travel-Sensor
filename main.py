@@ -241,7 +241,8 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             last_humidity_alert_time = datetime.now()
             
     #TODO Add air quality and smoke here
-    
+    except Exception: 
+        pass
     return
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
