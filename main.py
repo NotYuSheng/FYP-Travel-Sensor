@@ -233,9 +233,6 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         # Humidity Alerts
         advisoryMessage = "🚨AUTOMATED ALERT: \n" + getHumidityAdvMsg(currentHumidity)
         
-        print(type(last_humidity_alert_time))
-        print(type(HUMIDITY_COOLDOWN_PERIOD))
-        
         if (datetime.now() - timedelta(seconds=last_humidity_alert_time)).total_seconds() >= HUMIDITY_COOLDOWN_PERIOD:
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=humidityInlineKeyboard)
             last_humidity_alert_time = datetime.now()
