@@ -31,7 +31,7 @@ class MQ2():
     GAS_CH4                      = 6
 
     def __init__(self, Ro=10, analogPin=0):
-        self.Ro = Ro        
+        self.Ro = Ro
         self.MQ_PIN = analogPin
         self.adc = MCP3008()
         
@@ -90,6 +90,9 @@ class MQ2():
     #          could be derived.
     ############################################################################ 
     def MQResistanceCalculation(self, raw_adc):
+        while (float(raw_adc) == 0):
+            print("MQ2 wire loose...")
+            time.sleep(1)
         return float(self.RL_VALUE*(1023.0-raw_adc)/float(raw_adc));
      
      
