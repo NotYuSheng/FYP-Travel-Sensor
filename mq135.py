@@ -84,6 +84,14 @@ class MQ135():
     #          could be derived.
     ############################################################################ 
     def MQResistanceCalculation(self, raw_adc):
+        count = 0
+        while (float(raw_adc) == 0 and count < 3):
+            print("MQ135 wire loose...")
+            time.sleep(1)
+            count += 1
+        if (count == 3):
+            print("MQ135 wire loose timeout, try again later...")
+            return 0.1;
         return float(self.RL_VALUE*(1023.0-raw_adc)/float(raw_adc));
      
      
