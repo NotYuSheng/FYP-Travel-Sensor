@@ -1,21 +1,18 @@
 #!/usr/bin/python3
 
-import os
-from dotenv import load_dotenv
-import sys
-import time
-import logging
+import os, sys, time
 import RPi.GPIO as GPIO
 import board
 import adafruit_dht
+
+from dotenv import load_dotenv
 from datetime import datetime, timedelta
-import pytz
 from decouple import config
-import time
+
 from mq2 import *
 from mq135 import *
+from lib.mq import MQ # TODO Remove this
 
-from lib.mq import MQ
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import Application, CallbackContext, CommandHandler, ContextTypes, ConversationHandler, filters, MessageHandler, Updater
 
@@ -64,7 +61,6 @@ TELEBOT_API_KEY = os.environ['TELEBOT_API_KEY']
 STANDARD_ERROR_MESSAGE = "Seems like something expected has occured...\nThis incident has been recorded"
 DHT11_ERROR_MESSAGE = "Error: DHT11 faliure"
 LOG_PATH = "logs/log.txt" # Log file location
-sgt_timezone = pytz.timezone('Asia/Singapore')
 REPEATING_INTERVAL = 1 * 60 * 15 # When sending out a repeated message, have a 15 mins interval
 COMMAND = 0
 
