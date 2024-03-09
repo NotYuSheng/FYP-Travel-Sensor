@@ -361,7 +361,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         while True: 
             try:
                 percMQ135 = mq135.MQPercentage()
-                advisoryMessage = "ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (perc["ACETON"], perc["TOLUENO"], perc["ALCOHOL"], perc["CO2"], perc["NH4"], perc["CO"])"
+                advisoryMessage = "ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (perc["ACETON"], perc["TOLUENO"], perc["ALCOHOL"], perc["CO2"], perc["NH4"], perc["CO"])
                 await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
             except:
                 if (count > 3):
@@ -378,7 +378,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         while True: 
             try:
                 percMQ2 = mq2.MQPercentage()
-                advisoryMessage = "SMOKE: %g ppm" % (perc["SMOKE"])"
+                advisoryMessage = "SMOKE: %g ppm" % (perc["SMOKE"])
                 await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
             except:
                 if (count > 3):
