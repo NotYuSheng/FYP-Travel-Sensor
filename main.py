@@ -239,11 +239,8 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         if (datetime.now() - last_humidity_alert_time).total_seconds() >= HUMIDITY_COOLDOWN_PERIOD:
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=humidityInlineKeyboard)
             last_humidity_alert_time = datetime.now()
-    
-    
-    
-    perc2 = mq2.MQPercentage()
-    perc135 = mq135.MQPercentage()
+
+        #TODO Add air quality and smoke here
     
     """
     # Read sensor data from CH7 of MCP3008
