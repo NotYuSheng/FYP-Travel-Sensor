@@ -6,7 +6,8 @@ import sys
 import time
 import logging
 import RPi.GPIO as GPIO
-import dht11
+import board
+import adafruit_dht
 from datetime import datetime, timedelta
 import pytz
 from decouple import config
@@ -18,9 +19,9 @@ from lib.mq import MQ
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import Application, CallbackContext, CommandHandler, ContextTypes, ConversationHandler, filters, MessageHandler, Updater
 
-DHT11_PIN = 11;
-MQ2_MCP3008_PIN = 0;
-MQ135_MCP3008_PIN = 1;
+DHT11_PIN = board.D17; # GPIO 17
+MQ2_MCP3008_PIN = 0; # MCP3008 CH0
+MQ135_MCP3008_PIN = 1; # MCP3008 CH1
 
 TEMPERATURE_COOLDOWN_PERIOD = 300 # 5 minute
 HUMIDITY_COOLDOWN_PERIOD = 300 # 5 minute
@@ -218,11 +219,9 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         return
     
     job = context.job
-    dht11Result = dht11Instance.read()
-    
-    if dht11Result.is_valid():
-        currentTemperature = dht11Result.temperature
-        currentHumidity = dht11Result.humidity
+    try:
+        currentTemperature = dht11.temperature
+        currentHumidity = dht11.humidity
         
         # Temperature Alerts
         advisoryMessage = "🚨AUTOMATED ALERT: \n" + getTemperatureAdvMsg(currentTemperature)
@@ -323,50 +322,74 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     print(f"Command of {user.first_name}: {update.message.text}")
     #loggerInstance.info("Command of %s: %s", user.first_name, update.message.text)
     
-    dht11Result = dht11Instance.read()
-    
     count = 0
     if (update.message.text == "Temperature"):
-        while (True):
-            dht11Result = dht11Instance.read()
-            if dht11Result.is_valid():
-                currentTemperature = dht11Result.temperature
+        while True:
+            try:
+                currentTemperature = dht11.temperature
                 advisoryMessage = getTemperatureAdvMsg(currentTemperature)
                 last_temperature_alert_time = TEMPERATURE_COOLDOWN_PERIOD;
                 await update.message.reply_text(text=advisoryMessage, reply_markup=temperatureInlineKeyboard)
                 break
-            else:
+            except:
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load temperature, possibly caused by loose wiring",
                     )
-                    break;
+                    break
                 await update.message.reply_text("Loading Temperature...")
                 count += 1
                 time.sleep(1)
     
     elif (update.message.text == "Humidity"):
-        while (True):
-            dht11Result = dht11Instance.read()
-            if dht11Result.is_valid():
-                currentHumidity = dht11Result.humidity
-                advisoryMessage = getHumidityAdvMsg(currentHumidity)
-                last_humidity_alert_time = HUMIDITY_COOLDOWN_PERIOD;
-                await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
-                break
-            else:
-                if (count > 3):
-                    await update.message.reply_text(
-                        "Failed to load temperature, possibly caused by loose wiring",
-                    )
-                    break;
-                await update.message.reply_text("Loading Humidity...")
-                count += 1
-                time.sleep(1)
+        while True:
+            currentHumidity = dht11.humidity
+            advisoryMessage = getHumidityAdvMsg(currentHumidity)
+            last_humidity_alert_time = HUMIDITY_COOLDOWN_PERIOD;
+            await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
+            break
+        except:
+            if (count > 3):
+                await update.message.reply_text(
+                    "Failed to load temperature, possibly caused by loose wiring",
+                )
+                break;
+            await update.message.reply_text("Loading Humidity...")
+            count += 1
+            time.sleep(1)
                 
     elif (update.message.text == "Air Quality"):
-        while (True):
-               
+        while True: 
+            try:
+                percMQ135 = mq135.MQPercentage()
+                advisoryMessage = "ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (perc["ACETON"], perc["TOLUENO"], perc["ALCOHOL"], perc["CO2"], perc["NH4"], perc["CO"])"
+                await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
+            except:
+                if (count > 3):
+                    await update.message.reply_text(
+                        "Failed to load air quality, possibly caused by loose wiring",
+                    )
+                    break
+                await update.message.reply_text("Loading Air Quality...")
+                count += 1
+                time.sleep(1)
+            break
+
+    elif (update.message.text == "Smoke"):
+        while True: 
+            try:
+                percMQ2 = mq2.MQPercentage()
+                advisoryMessage = "SMOKE: %g ppm" % (perc["SMOKE"])"
+                await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
+            except:
+                if (count > 3):
+                    await update.message.reply_text(
+                        "Failed to load air quality, possibly caused by loose wiring",
+                    )
+                    break
+                await update.message.reply_text("Loading Smoke...")
+                count += 1
+                time.sleep(1)
             break
     
     elif (update.message.text == "Alerts On/Off"):
@@ -421,7 +444,7 @@ if __name__ == "__main__":
     #loggerInstance = loggerInit()
     
     # DHT11 Temperature and Humidity Sensor Initialization
-    dht11Instance = dht11.DHT11(pin=DHT11_PIN)
+    dht11 = adafruit_dht.DHT11(DHT11_PIN)
     
     # MQ135 Gas Sensor Calibration + Initilization
     mq2 = MQ2(MQ2_MCP3008_PIN);
