@@ -31,10 +31,6 @@ last_temperature_alert_time = datetime.now() - timedelta(seconds=TEMPERATURE_COO
 last_humidity_alert_time = datetime.now() - timedelta(seconds=HUMIDITY_COOLDOWN_PERIOD)
 last_airquality_alert_time = datetime.now() - timedelta(seconds=AIRQUALITY_COOLDOWN_PERIOD)
 
-current_temperature_category = ""
-current_humidity_category = ""
-current_airquality_category = ""
-
 temperatureInlineKeyboard = InlineKeyboardMarkup([
     [InlineKeyboardButton("More details", callback_data="Temperature-more-details")],
     #[InlineKeyboardButton("Button 2", callback_data="button2_data")],
@@ -59,9 +55,6 @@ TELEBOT_API_KEY = os.environ['TELEBOT_API_KEY']
 
 # Static variables
 STANDARD_ERROR_MESSAGE = "Seems like something expected has occured...\nThis incident has been recorded"
-DHT11_ERROR_MESSAGE = "Error: DHT11 faliure"
-LOG_PATH = "logs/log.txt" # Log file location
-REPEATING_INTERVAL = 1 * 60 * 15 # When sending out a repeated message, have a 15 mins interval
 COMMAND = 0
 
 # Initialize GPIO
@@ -376,8 +369,10 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             alertMessage = "Automated alerts disabled"
         else:
             alertMessage = "Automated alerts enabled"
-            last_temperature_alert_time = TEMPERATURE_COOLDOWN_PERIOD;
-            last_humidity_alert_time = HUMIDITY_COOLDOWN_PERIOD;
+            last_temperature_alert_time = datetime.now() - timedelta(seconds=TEMPERATURE_COOLDOWN_PERIOD)
+            last_humidity_alert_time = datetime.now() - timedelta(seconds=HUMIDITY_COOLDOWN_PERIOD)
+            last_airquality_alert_time = datetime.now() - timedelta(seconds=AIRQUALITY_COOLDOWN_PERIOD)
+        
         automatedAlertFlag = not automatedAlertFlag
         await update.message.reply_text(text=alertMessage)
         
