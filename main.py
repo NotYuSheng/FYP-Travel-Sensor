@@ -232,7 +232,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     #TODO Add air quality and smoke here
     except Exception as e:
         print(f"Error code #1: An error occurred: {e}")
-        print(f"Note: Errors happen fairly often, DHT11's are hard to read, don't worry and just requery.")
+        print(f"    Note: Errors happen fairly often, DHT11's are hard to read, don't worry and just requery.")
     return
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -300,6 +300,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 break
             except Exception as e:
                 print(f"Error code #2: An error occurred: {e}")
+                print(f"    Note: Errors happen fairly often, DHT11's are hard to read, don't worry and just requery.")
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load temperature, possibly caused by loose wiring",
@@ -319,6 +320,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 break
             except Exception as e:
                 print(f"Error code #3: An error occurred: {e}")
+                print(f"    Note: Errors happen fairly often, DHT11's are hard to read, don't worry and just requery.")
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load temperature, possibly caused by loose wiring",
@@ -356,7 +358,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 print(f"Error code #5: An error occurred: {e}")
                 if (count > 3):
                     await update.message.reply_text(
-                        "Failed to load air quality, possibly caused by loose wiring",
+                        "Failed to load smoke, possibly caused by loose wiring",
                     )
                     break
                 await update.message.reply_text("Loading Smoke...")
@@ -408,16 +410,16 @@ def main() -> None:
     
     # Run the bot until the user presses Ctrl-C
     application.run_polling(allowed_updates=Update.ALL_TYPES)
-    print("Intialization complete")
+    print("Bot shut down")
 
 if __name__ == "__main__":
     # DHT11 Temperature and Humidity Sensor Initialization
     dht11 = adafruit_dht.DHT11(DHT11_PIN)
     
-    # MQ135 Gas Sensor Calibration + Initilization
+    # MQ2 & MQ135 Gas Sensors Calibration + Initilization
     mq2 = MQ2(MQ2_MCP3008_PIN)
     mq135 = MQ135(MQ135_MCP3008_PIN)
-    print("Initialization complete!")    
+    print("Initialization complete!")
     main()
     
 """
