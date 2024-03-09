@@ -241,7 +241,8 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             last_humidity_alert_time = datetime.now()
 
         #TODO Add air quality and smoke here
-    
+    except:
+        continue
     """
     # Read sensor data from CH7 of MCP3008
     mq135_value = read_adc(7)
