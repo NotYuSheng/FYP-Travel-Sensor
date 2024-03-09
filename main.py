@@ -252,7 +252,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                         ['Temperature'],
                         ['Humidity'],
                         ['Air Quality'],
-                        #['PSI'],
+                        ['Smoke'],
                         ['Alerts On/Off']
                         ]
     msg = ("Hi " + user.first_name + ", welcome to TravelSensor Bot!"
