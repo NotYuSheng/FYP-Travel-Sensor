@@ -241,8 +241,8 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             last_humidity_alert_time = datetime.now()
             
     #TODO Add air quality and smoke here
-    except Exception: 
-        print(Exception)
+    except Exception as e:
+        print(f"An error occurred: {e}")
     return
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -308,8 +308,8 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 last_temperature_alert_time = TEMPERATURE_COOLDOWN_PERIOD;
                 await update.message.reply_text(text=advisoryMessage, reply_markup=temperatureInlineKeyboard)
                 break
-            except:
-                print(Exception)
+            except Exception as e:
+                print(f"An error occurred: {e}")
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load temperature, possibly caused by loose wiring",
@@ -327,8 +327,8 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 last_humidity_alert_time = HUMIDITY_COOLDOWN_PERIOD;
                 await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
                 break
-            except:
-                print(Exception)
+            except Exception as e:
+                print(f"An error occurred: {e}")
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load temperature, possibly caused by loose wiring",
@@ -344,8 +344,8 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 percMQ135 = mq135.MQPercentage()
                 advisoryMessage = "ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (perc["ACETON"], perc["TOLUENO"], perc["ALCOHOL"], perc["CO2"], perc["NH4"], perc["CO"])
                 await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
-            except:
-                print(Exception)
+            except Exception as e:
+                print(f"An error occurred: {e}")
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load air quality, possibly caused by loose wiring",
@@ -362,7 +362,8 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 percMQ2 = mq2.MQPercentage()
                 advisoryMessage = "SMOKE: %g ppm" % (perc["SMOKE"])
                 await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
-            except:
+            except Exception as e:
+                print(f"An error occurred: {e}")
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load air quality, possibly caused by loose wiring",
