@@ -323,7 +323,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 coPPM = percMQ135["CO"]
                 
                 print("----------MQ2----------")
-                print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (percMQ2["LPG"], percMQ2["CO"], percMQ2["SMOKE"], percMQ2["PROPANE"], percMQ135["H2"], percMQ135["ALCOHOL"], percMQ135["CH4"]))
+                print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (percMQ2["LPG"], percMQ2["CO"], percMQ2["SMOKE"], percMQ2["PROPANE"], percMQ2["H2"], percMQ2["ALCOHOL"], percMQ2["CH4"]))
                 print("---------MQ135---------")
                 print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (percMQ135["ACETON"], percMQ135["TOLUENO"], percMQ135["ALCOHOL"], percMQ135["CO2"], percMQ135["NH4"], percMQ135["CO"]))
                 
@@ -342,7 +342,6 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                     break
             except Exception as e:
                 print(f"Error code #4: An error occurred: {e}")
-                print(traceback.format_exc())
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load air quality, possibly caused by loose wiring",
