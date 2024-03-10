@@ -184,20 +184,20 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         percMQ2 = mq2.MQPercentage()
         percMQ135 = mq135.MQPercentage()
 
-        lpgPPM = percMQ2["LPG"]
-        coPPM = percMQ2["CO"]
-        smokePPM = percMQ2["SMOKE"]
-        propanePPM = percMQ2["PROPANE"]
-        h2PPM = percMQ2["H2"] # Hydrogen
-        alcoholPPM = percMQ2["ALCOHOL"]
-        ch4PPM = percMQ2["CH4"] # Methane
+        lpgPPM = round(percMQ2["LPG"], 2)
+        coPPM = round(percMQ2["CO"], 2)
+        smokePPM = round(percMQ2["SMOKE"], 2)
+        propanePPM = round(percMQ2["PROPANE"], 2)
+        h2PPM = round(percMQ2["H2"], 2) # Hydrogen
+        alcoholPPM = round(percMQ2["ALCOHOL"], 2)
+        ch4PPM = round(percMQ2["CH4"], 2) # Methane
 
-        acetonPPM = percMQ135["ACETON"]
-        toluenoPPM = percMQ135["TOLUENO"]
-        alcoholPPM = percMQ135["ALCOHOL"]
-        co2PPM = percMQ135["CO2"]
-        nh4PPM = percMQ135["NH4"]
-        coPPM = percMQ135["CO"]
+        acetonPPM = round(percMQ135["ACETON"], 2)
+        toluenoPPM = round(percMQ135["TOLUENO"], 2)
+        alcoholPPM = round(percMQ135["ALCOHOL"], 2)
+        co2PPM = round(percMQ135["CO2"], 2)
+        nh4PPM = round(percMQ135["NH4"], 2)
+        coPPM = round(percMQ135["CO"], 2)
         
         if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
             advisoryMessage += "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
@@ -206,7 +206,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         if alcoholPPM > ALCOHOL_THRESHOLD:
             advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
         if advisoryMessage != "":
-            await update.message.reply_text(text=advisoryMessage)
+            await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
     except Exception as e:
         print(f"Error code #6: An error occurred: {e}")
         
