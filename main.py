@@ -31,18 +31,19 @@ last_humidity_alert_time = datetime.now() - timedelta(seconds=HUMIDITY_COOLDOWN_
 last_airquality_alert_time = datetime.now() - timedelta(seconds=AIRQUALITY_COOLDOWN_PERIOD)
 
 temperatureInlineKeyboard = InlineKeyboardMarkup([
-    [InlineKeyboardButton("More details", callback_data="Temperature-more-details")],
-    #[InlineKeyboardButton("Button 2", callback_data="button2_data")],
+    [InlineKeyboardButton("More details", url="https://www.nea.gov.sg/media/news/news/index/new-heat-stress-advisory-launched-to-guide-public-on-minimising-risk-of-heat-related-illnesses")],
 ])
 
 humidityInlineKeyboard = InlineKeyboardMarkup([
-    #[InlineKeyboardButton("More details", callback_data="Humidity-more-details")],
     [InlineKeyboardButton("More details", url="https://www.nea.gov.sg/media/news/news/index/new-heat-stress-advisory-launched-to-guide-public-on-minimising-risk-of-heat-related-illnesses")],
-    #[InlineKeyboardButton("Button 2", callback_data="button2_data")],
 ])
 
 airqualityInlineKeyboard = InlineKeyboardMarkup([
-    [InlineKeyboardButton("For a more accurate reading", url="https://www.iqair.com/sg/singapore")],
+    [InlineKeyboardButton("More details", url="https://www.haze.gov.sg/")],
+])
+
+hazeInlineKeyboard = InlineKeyboardMarkup([
+    [InlineKeyboardButton("More details", url="https://www.haze.gov.sg/")],
     #[InlineKeyboardButton("Button 2", callback_data="button2_data")],
 ])
 
@@ -181,7 +182,6 @@ def getAirQualityAdvMsg(airQuality: float) -> str:
             "tempMessage".format(airQuality)
         )
     return advisoryMessage
-
 """
 """
 def inlineButtonHandler(update: Update, context: CallbackContext) -> None:
@@ -286,7 +286,6 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     
     user = update.message.from_user
     print(f"Command of {user.first_name}: {update.message.text}")
-    #loggerInstance.info("Command of %s: %s", user.first_name, update.message.text)
     
     count = 0
     if (update.message.text == "Temperature"):
@@ -386,7 +385,6 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
     user = update.message.from_user
-    #loggerInstance.info("User %s canceled the conversation.", user.first_name)
     print(f"User {user.first_name} canceled the conversation.", )
     await update.message.reply_text(
         "Bye! I hope we can talk again some day.", reply_markup=ReplyKeyboardRemove()
