@@ -26,7 +26,7 @@ try:
         nh4PPM = round(percMQ135["NH4"], 2)
         coPPM = round(percMQ135["CO"], 2)
         
-        os.system('cls')
+        os.system("clear")
         print("----------MQ2----------")
         print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (lpgPPM, coPPM, smokePPM, propanePPM, h2PPM, alcoholPPM, ch4PPM))
         print("---------MQ135---------")
