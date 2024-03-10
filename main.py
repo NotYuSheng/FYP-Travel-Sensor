@@ -205,7 +205,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             advisoryMessage += "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation.\n"
         if alcoholPPM > ALCOHOL_THRESHOLD:
             advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
-        if advisoryMessage not "":
+        if advisoryMessage != "":
             await update.message.reply_text(text=advisoryMessage)
     except Exception as e:
         print(f"Error code #6: An error occurred: {e}")
