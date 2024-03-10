@@ -176,7 +176,7 @@ class MQ2():
     #          value.
     ############################################################################ 
     def MQGetPercentage(self, rs_ro_ratio, pcurve):
-        print(f"math.log(rs_ro_ratio): {math.log(rs_ro_ratio)}")
+        print(f"rs_ro_ratio: {rs_ro_ratio}")
         print(f"pcurve[0]: {pcurve[0]}")
         print(f"pcurve[1]: {pcurve[1]}")
         print(f"pcurve[2]: {pcurve[2]}")
