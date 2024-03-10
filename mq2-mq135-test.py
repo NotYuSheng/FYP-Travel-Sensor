@@ -14,7 +14,7 @@ try:
         sys.stdout.write("\033[K")
         
         sys.stdout.write("------MQ2-----\n")
-        sys.stdout.write("LPG: %g ppm, CO: %g ppm, Smoke: %g ppm\n" % (mq2_perc["GAS_LPG"], mq2_perc["CO"], mq2_perc["SMOKE"]))
+        sys.stdout.write("LPG: %g ppm, CO: %g ppm, Smoke: %g ppm\n" % (mq2_perc["LPG"], mq2_perc["CO"], mq2_perc["SMOKE"]))
         sys.stdout.write("PROPANE: %g ppm, H2: %g ppm, ALCOHOL: %g ppm\n" % (mq2_perc["PROPANE"], mq2_perc["H2"], mq2_perc["ALCOHOL"]))
         sys.stdout.write("CH4: %g ppm\n" % (mq2_perc["CH4"]))
         
