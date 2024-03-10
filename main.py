@@ -333,7 +333,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                     advisoryMessage += "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation.\n"
                 if alcoholPPM > ALCOHOL_THRESHOLD:
                     advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
-                if advisoryMessage not "":
+                if advisoryMessage != "":
                     await update.message.reply_text(text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
                     break
                 else:
