@@ -1,6 +1,6 @@
 from mq2 import *
 from mq135 import *
-import sys, time
+import sys, time, os
 
 try:
     print("Press CTRL+C to abort.")
@@ -10,18 +10,28 @@ try:
     while True:
         mq2_perc = mq2.MQPercentage()
         mq135_perc = mq135.MQPercentage()
-        sys.stdout.write("\r")
-        sys.stdout.write("\033[K")
+
+        lpgPPM = round(percMQ2["LPG"], 2)
+        coPPM = round(percMQ2["CO"], 2)
+        smokePPM = round(percMQ2["SMOKE"], 2)
+        propanePPM = round(percMQ2["PROPANE"], 2)
+        h2PPM = round(percMQ2["H2"], 2) # Hydrogen
+        alcoholPPM = round(percMQ2["ALCOHOL"], 2)
+        ch4PPM = round(percMQ2["CH4"], 2) # Methane
+
+        acetonPPM = round(percMQ135["ACETON"], 2)
+        toluenoPPM = round(percMQ135["TOLUENO"], 2)
+        alcoholPPM = round(percMQ135["ALCOHOL"], 2)
+        co2PPM = round(percMQ135["CO2"], 2)
+        nh4PPM = round(percMQ135["NH4"], 2)
+        coPPM = round(percMQ135["CO"], 2)
         
-        sys.stdout.write("------MQ2-----\n")
-        sys.stdout.write("LPG: %g ppm, CO: %g ppm, Smoke: %g ppm\n" % (mq2_perc["LPG"], mq2_perc["CO"], mq2_perc["SMOKE"]))
-        sys.stdout.write("PROPANE: %g ppm, H2: %g ppm, ALCOHOL: %g ppm\n" % (mq2_perc["PROPANE"], mq2_perc["H2"], mq2_perc["ALCOHOL"]))
-        sys.stdout.write("CH4: %g ppm\n" % (mq2_perc["CH4"]))
+        os.system('cls')
+        print("----------MQ2----------")
+        print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (lpgPPM, coPPM, smokePPM, propanePPM, h2PPM, alcoholPPM, ch4PPM))
+        print("---------MQ135---------")
+        print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (acetonPPM, toluenoPPM, alcoholPPM, co2PPM, nh4PPM, coPPM))
         
-        sys.stdout.write("------MQ135-----\n")
-        sys.stdout.write("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm\n" % (mq135_perc["ACETON"], mq135_perc["TOLUENO"], mq135_perc["ALCOHOL"]))
-        sys.stdout.write("CO2: %g ppm, NH4: %g ppm, CO: %g ppm\n" % (mq135_perc["CO2"], mq135_perc["NH4"], mq135_perc["CO"]))
-        sys.stdout.flush()
         time.sleep(0.1)
 
 except Exception as e:
