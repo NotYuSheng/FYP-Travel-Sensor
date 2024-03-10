@@ -11,7 +11,7 @@ from decouple import config
 
 from mq2 import *
 from mq135 import *
-from lib.mq import MQ # TODO Remove this
+#from lib.mq import MQ # TODO Remove this
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import Application, CallbackContext, CommandHandler, ContextTypes, ConversationHandler, filters, MessageHandler, Updater
