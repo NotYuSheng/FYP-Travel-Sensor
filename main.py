@@ -24,6 +24,8 @@ TEMPERATURE_COOLDOWN_PERIOD = 300 # 5 minute
 HUMIDITY_COOLDOWN_PERIOD = 300 # 5 minute
 AIRQUALITY_COOLDOWN_PERIOD = 300 # 5 minutes
 
+SMOKE_THRESHOLD = 5.0
+
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
 last_temperature_alert_time = datetime.now() - timedelta(seconds=TEMPERATURE_COOLDOWN_PERIOD)
@@ -331,9 +333,36 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     elif (update.message.text == "Air Quality"):
         while True: 
             try:
+                advisoryMessage = ""
+                percMQ2 = mq2.MQPercentage()
                 percMQ135 = mq135.MQPercentage()
-                advisoryMessage = "ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (percMQ135["ACETON"], percMQ135["TOLUENO"], percMQ135["ALCOHOL"], percMQ135["CO2"], percMQ135["NH4"], percMQ135["CO"])
-                await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
+                
+                acetonPPM = percMQ135["ACETON"]
+                toluenoPPM = percMQ135["TOLUENO"]
+                alcoholPPM = percMQ135["ALCOHOL"]
+                co2PPM = percMQ135["CO2"]
+                nh4PPM = percMQ135["NH4"]
+                coPPM = percMQ135["CO"]
+
+                lpgPPM = percMQ2["LPG"]
+                coPPM = percMQ2["CO"]
+                smokePPM = percMQ2["SMOKE"]
+                propanePPM = percMQ2["PROPANE"]
+                h2PPM = percMQ2["H2"] # Hydrogen
+                alcoholPPM = percMQ2["ALCOHOL"]
+                ch4PPM = percMQ2["CH4"] # Methane
+                
+                print("----------MQ2----------")
+                print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (percMQ2["LPG"], percMQ2["CO"], percMQ2["SMOKE"], percMQ2["PROPANE"], percMQ135["H2"], percMQ135["ALCOHOL"], percMQ135["CH4"]))
+                print("---------MQ135---------")
+                print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (percMQ135["ACETON"], percMQ135["TOLUENO"], percMQ135["ALCOHOL"], percMQ135["CO2"], percMQ135["NH4"], percMQ135["CO"]))
+                
+                if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
+                    advisoryMessage = "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
+                if :
+                    advisoryMessage = "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation."
+                advisoryMessage = "temp"
+                await update.message.reply_text(text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
             except Exception as e:
                 print(f"Error code #4: An error occurred: {e}")
                 if (count > 3):
@@ -350,8 +379,15 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         while True: 
             try:
                 percMQ2 = mq2.MQPercentage()
-                advisoryMessage = "SMOKE: %g ppm" % (percMQ2["SMOKE"])
-                await update.message.reply_text(text=advisoryMessage, reply_markup=humidityInlineKeyboard)
+                smokePPM = percMQ2["SMOKE"]
+                print("SMOKE: %g ppm" % (percMQ2["SMOKE"]))
+                
+                if smokePPM > SMOKE_THRESHOLD:
+                    advisoryMessage = "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation."
+                else:
+                    advisoryMessage = "Your environment is currently clear of smoke. Enjoy the clean air!"
+                
+                await update.message.reply_text(text=advisoryMessage, reply_markup=hazeInlineKeyboard)
             except Exception as e:
                 print(f"Error code #5: An error occurred: {e}")
                 if (count > 3):
