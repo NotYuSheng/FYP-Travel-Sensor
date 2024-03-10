@@ -342,6 +342,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                     break
             except Exception as e:
                 print(f"Error code #4: An error occurred: {e}")
+                print(traceback.format_exc())
                 if (count > 3):
                     await update.message.reply_text(
                         "Failed to load air quality, possibly caused by loose wiring",
