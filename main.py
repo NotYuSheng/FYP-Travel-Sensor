@@ -103,35 +103,35 @@ def getHumidityAdvMsg (humidity: float) -> str:
     if humidity < 20:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
-            "Category: Dry \n"
+            "Category: 🌵 Dry \n"
             "Extremely low humidity! Be mindful of potential dehydration and increased risk of static electricity".format(humidity)
         )
         
     elif humidity >= 20 and humidity < 40:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
-            "Category: Comfortable \n"
+            "Category: 🍃 Comfortable \n"
             "Enjoy the comfortable humidity levels!".format(humidity)
         )            
         
     elif humidity >= 40 and humidity < 60:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
-            "Category: Moderate \n"
+            "Category: 🌱 Moderate \n"
             "Moderate Humidity levels. Stay hydrated and comfortable".format(humidity)
         )
     
     elif humidity >= 60 and humidity < 80:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
-            "Category: Humid \n"
+            "Category: 💧 Humid \n"
             "Humidity on the rise! Be cautious of potential discomfort due to higher moisture levels".format(humidity)
         )
     
     elif humidity >= 80:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
-            "Category: High \n"
+            "Category: 🌊 High \n"
             "High humidity alert! Take precautions to stay cool and comfortable".format(humidity)
         )
     return advisoryMessage
