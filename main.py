@@ -23,7 +23,9 @@ MQ135_MCP3008_PIN = 1 # MCP3008 CH1
 TEMPERATURE_COOLDOWN_PERIOD = 300 # 5 minute
 HUMIDITY_COOLDOWN_PERIOD = 300 # 5 minute
 AIRQUALITY_COOLDOWN_PERIOD = 300 # 5 minutes
+SMOKE_COOLDOWN_PERIOD = 300 # 5 minutes
 
+# TODO, CALIBRATE
 SMOKE_THRESHOLD = 5.0
 ALCOHOL_THRESHOLD = 5.0
 LPG_THRESHOLD = 5.0
@@ -35,6 +37,7 @@ automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 last_temperature_alert_time = datetime.now() - timedelta(seconds=TEMPERATURE_COOLDOWN_PERIOD)
 last_humidity_alert_time = datetime.now() - timedelta(seconds=HUMIDITY_COOLDOWN_PERIOD)
 last_airquality_alert_time = datetime.now() - timedelta(seconds=AIRQUALITY_COOLDOWN_PERIOD)
+last_smoke_alert_time = datetime.now() - timedelta(seconds=SMOKE_COOLDOWN_PERIOD)
 
 temperatureInlineKeyboard = InlineKeyboardMarkup([
     [InlineKeyboardButton("More details", url="https://www.nea.gov.sg/media/news/news/index/new-heat-stress-advisory-launched-to-guide-public-on-minimising-risk-of-heat-related-illnesses")],
@@ -48,7 +51,7 @@ airqualityInlineKeyboard = InlineKeyboardMarkup([
     [InlineKeyboardButton("More details", url="https://www.haze.gov.sg/")],
 ])
 
-hazeInlineKeyboard = InlineKeyboardMarkup([
+smokeInlineKeyboard = InlineKeyboardMarkup([
     [InlineKeyboardButton("More details", url="https://www.haze.gov.sg/")],
     #[InlineKeyboardButton("Button 2", callback_data="button2_data")],
 ])
@@ -158,7 +161,6 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         
         # Temperature Alerts
         if currentTemperature >= 31:
-            
             advisoryMessage = "🚨AUTOMATED ALERT: \n" + getTemperatureAdvMsg(currentTemperature)
             
             if (datetime.now() - last_temperature_alert_time).total_seconds() >= TEMPERATURE_COOLDOWN_PERIOD:
@@ -172,11 +174,42 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             if (datetime.now() - last_humidity_alert_time).total_seconds() >= HUMIDITY_COOLDOWN_PERIOD:
                 await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=humidityInlineKeyboard)
                 last_humidity_alert_time = datetime.now()
-            
-    #TODO Add air quality and smoke here
+    
     except Exception as e:
         print(f"Error code #1: An error occurred: {e}")
         print(f"    Note: Errors happen fairly often, DHT11's are hard to read, don't worry and just requery.")
+
+    try:
+        advisoryMessage = ""
+        percMQ2 = mq2.MQPercentage()
+        percMQ135 = mq135.MQPercentage()
+
+        lpgPPM = percMQ2["LPG"]
+        coPPM = percMQ2["CO"]
+        smokePPM = percMQ2["SMOKE"]
+        propanePPM = percMQ2["PROPANE"]
+        h2PPM = percMQ2["H2"] # Hydrogen
+        alcoholPPM = percMQ2["ALCOHOL"]
+        ch4PPM = percMQ2["CH4"] # Methane
+
+        acetonPPM = percMQ135["ACETON"]
+        toluenoPPM = percMQ135["TOLUENO"]
+        alcoholPPM = percMQ135["ALCOHOL"]
+        co2PPM = percMQ135["CO2"]
+        nh4PPM = percMQ135["NH4"]
+        coPPM = percMQ135["CO"]
+        
+        if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
+            advisoryMessage += "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
+        if smokePPM > SMOKE_THRESHOLD:
+            advisoryMessage += "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation.\n"
+        if alcoholPPM > ALCOHOL_THRESHOLD:
+            advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
+        if advisoryMessage not "":
+            await update.message.reply_text(text=advisoryMessage)
+    except Exception as e:
+        print(f"Error code #6: An error occurred: {e}")
+        
     return
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -301,11 +334,11 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 if alcoholPPM > ALCOHOL_THRESHOLD:
                     advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
                 if advisoryMessage not "":
-                    advisoryMessage = "Great news! No dangerous gases have been detected in your environment. Enjoy the peace of mind and breathe freely in a safe and healthy atmosphere."
-                    await update.message.reply_text(text=advisoryMessage)
+                    await update.message.reply_text(text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
                     break
                 else:
-                    await update.message.reply_text(text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
+                    advisoryMessage = "Great news! No dangerous gases have been detected in your environment. Enjoy the peace of mind and breathe freely in a safe and healthy atmosphere."
+                    await update.message.reply_text(text=advisoryMessage)
                     break
             except Exception as e:
                 print(f"Error code #4: An error occurred: {e}")
@@ -331,7 +364,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 else:
                     advisoryMessage = "Your environment is currently clear of smoke. Enjoy the clean air!"
                 
-                await update.message.reply_text(text=advisoryMessage, reply_markup=hazeInlineKeyboard)
+                await update.message.reply_text(text=advisoryMessage, reply_markup=smokeInlineKeyboard)
             except Exception as e:
                 print(f"Error code #5: An error occurred: {e}")
                 if (count > 3):
@@ -352,6 +385,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             last_temperature_alert_time = datetime.now() - timedelta(seconds=TEMPERATURE_COOLDOWN_PERIOD)
             last_humidity_alert_time = datetime.now() - timedelta(seconds=HUMIDITY_COOLDOWN_PERIOD)
             last_airquality_alert_time = datetime.now() - timedelta(seconds=AIRQUALITY_COOLDOWN_PERIOD)
+            last_smoke_alert_time = datetime.now() - timedelta(seconds=SMOKE_COOLDOWN_PERIOD)
         
         automatedAlertFlag = not automatedAlertFlag
         await update.message.reply_text(text=alertMessage)
