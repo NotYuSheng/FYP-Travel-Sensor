@@ -25,6 +25,10 @@ HUMIDITY_COOLDOWN_PERIOD = 300 # 5 minute
 AIRQUALITY_COOLDOWN_PERIOD = 300 # 5 minutes
 
 SMOKE_THRESHOLD = 5.0
+ALCOHOL_THRESHOLD = 5.0
+LPG_THRESHOLD = 5.0
+CH4_THRESHOLD = 5.0
+PROPANE_THRESHOLD = 5.0
 
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
@@ -138,67 +142,6 @@ def getHumidityAdvMsg (humidity: float) -> str:
         )
     return advisoryMessage
 
-"""
-def getAirQualityAdvMsg(airQuality: float) -> str:
-    
-    airQuality = round(airQuality)
-    if airQuality <= 50:
-        advisoryMessage = (
-            "Air Quality: {:}ppm \n"
-            "Category: Good \n"
-            "tempMessage".format(airQuality)
-        )
-        
-    elif airQuality > 50 and airQuality <= 100:
-        advisoryMessage = (
-            "Air Quality: {:}ppm \n"
-            "Category: Moderate \n"
-            "tempMessage".format(airQuality)
-        )
-    
-    elif airQuality > 100 and airQuality <= 150:
-        advisoryMessage = (
-            "Air Quality: {:}ppm \n"
-            "Category: Unhealth for sensitive groups \n"
-            "tempMessage".format(airQuality)
-        )
-    
-    elif airQuality > 150 and airQuality <= 200:
-        advisoryMessage = (
-            "Air Quality: {:}ppm \n"
-            "Category: Unhealthy \n"
-            "tempMessage".format(airQuality)
-        )
-    
-    elif airQuality > 200 and airQuality <= 300:
-        advisoryMessage = (
-            "Air Quality: {:}ppm \n"
-            "Category: Very unhealthy \n"
-            "tempMessage".format(airQuality)
-        )
-    
-    elif airQuality > 300:
-        advisoryMessage = (
-            "Air Quality: {:}ppm \n"
-            "Category: Hazardous \n"
-            "tempMessage".format(airQuality)
-        )
-    return advisoryMessage
-"""
-"""
-def inlineButtonHandler(update: Update, context: CallbackContext) -> None:
-    query = update.callback_query
-    data = query.data
-
-    # Handle the button click based on the callback data
-    if data == "Temperature-more-details":
-        # Handle Button 1 click
-        pass
-    elif data == "Humidity-more-details":
-        # Handle Button 2 click
-        pass
-"""
-
 async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send message when sensor value exceed threshold."""
 
@@ -246,6 +189,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                         ['Smoke'],
                         ['Alerts On/Off']
                         ]
+    
     msg = ("Hi " + user.first_name + ", welcome to TravelSensor Bot!"
             + "\n\n"
             + "What can this bot do?"
@@ -259,12 +203,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             + "Want to check the current status of your environment? Simply ask TravelSensor for the latest environmental data, and it will provide you with detailed information to ensure everything is in order."
             + "\n\n"
             + "Start your worry-free travels with TravelSensor today! Type /help to explore all available commands and features. Safe travels!")
-
-    """
-    msg = ("Hi " + user.first_name + "! My name is Sensor Bot, nice to meet you!\n"
-        + "Send /cancel at any time to stop talking to me.\n"
-        + "Please select a command below.")
-    """
     
     placeholder_msg = "Command?"
     await update.message.reply_text(
@@ -277,7 +215,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     chat_id = str(update.message.chat_id)
     
     context.job_queue.run_repeating(alarm, 10, chat_id=chat_id, name=str(chat_id))
-    #context.job_queue.run_once(alarm, 1, chat_id=chat_id, name=str(chat_id), data=due)
     
     return COMMAND
 
@@ -336,13 +273,6 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 advisoryMessage = ""
                 percMQ2 = mq2.MQPercentage()
                 percMQ135 = mq135.MQPercentage()
-                
-                acetonPPM = percMQ135["ACETON"]
-                toluenoPPM = percMQ135["TOLUENO"]
-                alcoholPPM = percMQ135["ALCOHOL"]
-                co2PPM = percMQ135["CO2"]
-                nh4PPM = percMQ135["NH4"]
-                coPPM = percMQ135["CO"]
 
                 lpgPPM = percMQ2["LPG"]
                 coPPM = percMQ2["CO"]
@@ -351,6 +281,13 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 h2PPM = percMQ2["H2"] # Hydrogen
                 alcoholPPM = percMQ2["ALCOHOL"]
                 ch4PPM = percMQ2["CH4"] # Methane
+
+                acetonPPM = percMQ135["ACETON"]
+                toluenoPPM = percMQ135["TOLUENO"]
+                alcoholPPM = percMQ135["ALCOHOL"]
+                co2PPM = percMQ135["CO2"]
+                nh4PPM = percMQ135["NH4"]
+                coPPM = percMQ135["CO"]
                 
                 print("----------MQ2----------")
                 print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (percMQ2["LPG"], percMQ2["CO"], percMQ2["SMOKE"], percMQ2["PROPANE"], percMQ135["H2"], percMQ135["ALCOHOL"], percMQ135["CH4"]))
@@ -358,11 +295,18 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (percMQ135["ACETON"], percMQ135["TOLUENO"], percMQ135["ALCOHOL"], percMQ135["CO2"], percMQ135["NH4"], percMQ135["CO"]))
                 
                 if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
-                    advisoryMessage = "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
-                if :
-                    advisoryMessage = "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation."
-                advisoryMessage = "temp"
-                await update.message.reply_text(text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
+                    advisoryMessage += "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
+                if smokePPM > SMOKE_THRESHOLD:
+                    advisoryMessage += "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation.\n"
+                if alcoholPPM > ALCOHOL_THRESHOLD:
+                    advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
+                if advisoryMessage not "":
+                    advisoryMessage = "Great news! No dangerous gases have been detected in your environment. Enjoy the peace of mind and breathe freely in a safe and healthy atmosphere."
+                    await update.message.reply_text(text=advisoryMessage)
+                    break
+                else:
+                    await update.message.reply_text(text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
+                    break
             except Exception as e:
                 print(f"Error code #4: An error occurred: {e}")
                 if (count > 3):
