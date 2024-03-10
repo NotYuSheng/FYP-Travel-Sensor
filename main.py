@@ -23,7 +23,6 @@ MQ135_MCP3008_PIN = 1 # MCP3008 CH1
 TEMPERATURE_COOLDOWN_PERIOD = 300 # 5 minute
 HUMIDITY_COOLDOWN_PERIOD = 300 # 5 minute
 AIRQUALITY_COOLDOWN_PERIOD = 300 # 5 minutes
-# TODO Trigger alert only when category changes with short 1min cooldown
 
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
