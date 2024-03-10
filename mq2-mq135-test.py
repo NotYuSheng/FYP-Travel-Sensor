@@ -8,8 +8,8 @@ try:
     mq2 = MQ2();
     mq135 = MQ135();
     while True:
-        mq2_perc = mq2.MQPercentage()
-        mq135_perc = mq135.MQPercentage()
+        percMQ2 = mq2.MQPercentage()
+        percMQ135 = mq135.MQPercentage()
 
         lpgPPM = round(percMQ2["LPG"], 2)
         coPPM = round(percMQ2["CO"], 2)
