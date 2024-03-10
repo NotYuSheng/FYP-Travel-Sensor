@@ -307,25 +307,25 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 percMQ2 = mq2.MQPercentage()
                 percMQ135 = mq135.MQPercentage()
 
-                lpgPPM = percMQ2["LPG"]
-                coPPM = percMQ2["CO"]
-                smokePPM = percMQ2["SMOKE"]
-                propanePPM = percMQ2["PROPANE"]
-                h2PPM = percMQ2["H2"] # Hydrogen
-                alcoholPPM = percMQ2["ALCOHOL"]
-                ch4PPM = percMQ2["CH4"] # Methane
-
-                acetonPPM = percMQ135["ACETON"]
-                toluenoPPM = percMQ135["TOLUENO"]
-                alcoholPPM = percMQ135["ALCOHOL"]
-                co2PPM = percMQ135["CO2"]
-                nh4PPM = percMQ135["NH4"]
-                coPPM = percMQ135["CO"]
+                lpgPPM = round(percMQ2["LPG"], 2)
+                coPPM = round(percMQ2["CO"], 2)
+                smokePPM = round(percMQ2["SMOKE"], 2)
+                propanePPM = round(percMQ2["PROPANE"], 2)
+                h2PPM = round(percMQ2["H2"], 2) # Hydrogen
+                alcoholPPM = round(percMQ2["ALCOHOL"], 2)
+                ch4PPM = round(percMQ2["CH4"], 2) # Methane
+        
+                acetonPPM = round(percMQ135["ACETON"], 2)
+                toluenoPPM = round(percMQ135["TOLUENO"], 2)
+                alcoholPPM = round(percMQ135["ALCOHOL"], 2)
+                co2PPM = round(percMQ135["CO2"], 2)
+                nh4PPM = round(percMQ135["NH4"], 2)
+                coPPM = round(percMQ135["CO"], 2)
                 
                 print("----------MQ2----------")
-                print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (percMQ2["LPG"], percMQ2["CO"], percMQ2["SMOKE"], percMQ2["PROPANE"], percMQ2["H2"], percMQ2["ALCOHOL"], percMQ2["CH4"]))
+                print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (lpgPPM, coPPM, smokePPM, propanePPM, h2PPM, alcoholPPM, ch4PPM))
                 print("---------MQ135---------")
-                print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (percMQ135["ACETON"], percMQ135["TOLUENO"], percMQ135["ALCOHOL"], percMQ135["CO2"], percMQ135["NH4"], percMQ135["CO"]))
+                print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (acetonPPM, toluenoPPM, alcoholPPM, co2PPM, nh4PPM, coPPM))
                 
                 if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
                     advisoryMessage += "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
