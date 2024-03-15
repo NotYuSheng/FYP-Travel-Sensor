@@ -5,6 +5,8 @@ import RPi.GPIO as GPIO
 import board
 import adafruit_dht
 
+from lib.MCP3008 import MCP3008
+
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from decouple import config
