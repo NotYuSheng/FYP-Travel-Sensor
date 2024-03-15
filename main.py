@@ -390,13 +390,13 @@ if __name__ == "__main__":
     # adc Declaration
     adc = MCP3008()
     
-    
+    """
     while True:
         os.system("clear")
         print(f"Smoke: {adc.read(MQ2_MCP3008_PIN)}")
         print(f"Air Quality: {adc.read(MQ135_MCP3008_PIN)}")
         time.sleep(1)
-    
+    """
     
     print("Initialization complete!")
     main()
