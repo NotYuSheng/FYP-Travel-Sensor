@@ -338,17 +338,17 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
                 if percMQ135['rs_ro_ratio'] < 0:
                     advisoryMessage += "Alert: MQ135 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases."
-                """
-                if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
-                    advisoryMessage += "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
-                if smokePPM > SMOKE_THRESHOLD:
-                    advisoryMessage += "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation.\n"
-                if alcoholPPM > ALCOHOL_THRESHOLD:
-                    advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
-                if advisoryMessage != "":
-                    await update.message.reply_text(text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
-                    break
-                """
+                    """
+                    if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
+                        advisoryMessage += "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
+                    if smokePPM > SMOKE_THRESHOLD:
+                        advisoryMessage += "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation.\n"
+                    if alcoholPPM > ALCOHOL_THRESHOLD:
+                        advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
+                    if advisoryMessage != "":
+                        await update.message.reply_text(text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
+                        break
+                    """
                 else:
                     advisoryMessage = "Great news! No dangerous gases have been detected in your environment. Enjoy the peace of mind and breathe freely in a safe and healthy atmosphere."
                     await update.message.reply_text(text=advisoryMessage)
