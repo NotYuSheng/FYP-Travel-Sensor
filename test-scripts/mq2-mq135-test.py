@@ -1,6 +1,12 @@
-from ..lib.mq2 import *
-from ..lib.mq135 import *
 import sys, time, os
+
+# Add the 'lib' directory to the Python path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+lib_dir = os.path.join(current_dir, '..', 'lib')
+sys.path.append(lib_dir)
+
+from mq2 import *
+from mq135 import *
 
 #try:
 print("Press CTRL+C to abort.")
