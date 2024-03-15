@@ -68,6 +68,7 @@ class MQ135():
     def MQPercentage(self):
         val = {}
         read = self.MQRead(self.MQ_PIN)
+        val["rs_ro_ratio"] = self.rs_ro_ratio
         val["ACETON"]   = self.MQGetGasPercentage(read/self.Ro, self.GAS_ACETON)
         val["TOLUENO"]  = self.MQGetGasPercentage(read/self.Ro, self.GAS_TOLUENO)
         val["ALCOHOL"]  = self.MQGetGasPercentage(read/self.Ro, self.GAS_ALCOHOL)
@@ -157,7 +158,7 @@ class MQ135():
         elif ( gas_id == self.GAS_CO ):
             return self.MQGetPercentage(rs_ro_ratio, self.COCurve)
         return 0
-     
+    
     #########################  MQGetPercentage #################################
     # Input:   rs_ro_ratio - Rs divided by Ro
     #          pcurve      - pointer to the curve of the target gas
