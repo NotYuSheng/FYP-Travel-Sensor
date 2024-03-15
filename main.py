@@ -26,6 +26,8 @@ SMOKE_COOLDOWN_PERIOD = 60 # 1 minutes
 MQ2_THRESHOLD = 2000
 MQ135_THRESHOLD = 450
 
+ALARM_INTERVAL = 30
+
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
 last_temperature_alert_time = datetime.now() - timedelta(seconds=TEMPERATURE_COOLDOWN_PERIOD)
@@ -235,7 +237,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     
     chat_id = str(update.message.chat_id)
     
-    context.job_queue.run_repeating(alarm, 10, chat_id=chat_id, name=str(chat_id))
+    context.job_queue.run_repeating(alarm, ALARM_INTERVAL, chat_id=chat_id, name=str(chat_id))
     
     return COMMAND
 
