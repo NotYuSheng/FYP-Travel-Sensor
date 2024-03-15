@@ -63,7 +63,6 @@ TELEBOT_API_KEY = os.environ['TELEBOT_API_KEY']
 
 # Static variables
 STANDARD_ERROR_MESSAGE = "Seems like something expected has occured...\nThis incident has been recorded"
-COMMAND = 0
 
 # Initialize GPIO
 GPIO.setwarnings(False)
@@ -237,7 +236,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     
     context.job_queue.run_repeating(alarm, 10, chat_id=chat_id, name=str(chat_id))
     
-    return COMMAND
+    return
 
 async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Stores the selected command and ask for next command."""
@@ -358,7 +357,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         await update.message.reply_text(
             STANDARD_ERROR_MESSAGE
         )
-    return COMMAND # TODO redundant
+    return
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
