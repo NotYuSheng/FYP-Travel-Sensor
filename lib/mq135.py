@@ -168,4 +168,7 @@ class MQ135():
     #          value.
     ############################################################################ 
     def MQGetPercentage(self, rs_ro_ratio, pcurve):
-        return (math.pow(10,( ((math.log(rs_ro_ratio)-pcurve[1])/ pcurve[2]) + pcurve[0])))
+        if (rs_ro_ratio <= 0):
+            return 0;
+        else:
+            return (math.pow(10,( ((math.log(rs_ro_ratio)-pcurve[1])/ pcurve[2]) + pcurve[0])))
