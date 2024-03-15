@@ -9,9 +9,6 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from decouple import config
 
-from lib.mq2 import *
-from lib.mq135 import *
-
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import Application, CallbackContext, CommandHandler, ContextTypes, ConversationHandler, filters, MessageHandler, Updater
 
@@ -23,6 +20,9 @@ TEMPERATURE_COOLDOWN_PERIOD = 60 # 1 minute
 HUMIDITY_COOLDOWN_PERIOD = 60 # 1 minute
 AIRQUALITY_COOLDOWN_PERIOD = 60 # 1 minutes
 SMOKE_COOLDOWN_PERIOD = 60 # 1 minutes
+
+MQ2_THRESHOLD = 3
+MQ135_THRESHOLD = 3
 
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
@@ -173,8 +173,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
 
     # Air Quality Alert
     try:
-        percMQ135 = mq135.MQPercentage()
-        if percMQ135['rs_ro_ratio'] < 0:
+        if adc.read(MQ135_MCP3008_PIN) >= MQ135_THRESHOLD:
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
             advisoryMessage += "MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate various sources such as leaks, emissions from vehicles or industrial processes, or inadequate ventilation, posing risks to health and safety.\n\n"
@@ -186,8 +185,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     
     # Smoke Alert
     try:
-        percMQ2 = mq2.MQPercentage()
-        if percMQ2['rs_ro_ratio'] < 0:    
+        if adc.read(MQ2_MCP3008_PIN) >= MQ2_THRESHOLD:    
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
             advisoryMessage += "MQ2 gas sensor detected the presence of gas in your environment. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate a gas leak\n\n"
@@ -289,10 +287,9 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     elif (update.message.text == "Air Quality"):
         while True: 
             try:
-                percMQ135 = mq135.MQPercentage()
                 last_airquality_alert_time = datetime.now()
                 
-                if percMQ135['rs_ro_ratio'] < 0:
+                if adc.read(MQ135_MCP3008_PIN) >= MQ135_THRESHOLD:
                     advisoryMessage = "MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
                     advisoryMessage += "The presence of these gases may indicate various sources such as leaks, emissions from vehicles or industrial processes, or inadequate ventilation, posing risks to health and safety.\n\n"
                     advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
@@ -315,10 +312,9 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     elif (update.message.text == "Smoke"):
         while True: 
             try:
-                percMQ2 = mq2.MQPercentage()
                 last_smoke_alert_time = datetime.now()
                 
-                if percMQ2['rs_ro_ratio'] < 0:
+                if adc.read(MQ2_MCP3008_PIN) > MQ2_THRESHOLD:
                     advisoryMessage = "💨 MQ2 gas sensor detected the presence of gas in your environment. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases.\n\n"
                     advisoryMessage += "The presence of these gases may indicate a gas leak\n\n"
                     advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
@@ -387,9 +383,9 @@ if __name__ == "__main__":
     # DHT11 Temperature and Humidity Sensor Initialization
     dht11 = adafruit_dht.DHT11(DHT11_PIN)
     
-    # MQ2 & MQ135 Gas Sensors Calibration + Initilization
-    mq2 = MQ2(MQ2_MCP3008_PIN)
-    mq135 = MQ135(MQ135_MCP3008_PIN)
+    # adc Declaration
+    adc = MCP3008()
+    
     print("Initialization complete!")
     main()
     
