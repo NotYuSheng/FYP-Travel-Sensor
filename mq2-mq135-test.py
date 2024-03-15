@@ -31,6 +31,8 @@ while True:
     print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (lpgPPM, coPPM, smokePPM, propanePPM, h2PPM, alcoholPPM, ch4PPM))
     print("---------MQ135---------")
     print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (acetonPPM, toluenoPPM, alcoholPPM, co2PPM, nh4PPM, coPPM))
+
+    print(f"rs_ro_ratio: {val["rs_ro_ratio"]}")
     
     time.sleep(0.1)
 """
