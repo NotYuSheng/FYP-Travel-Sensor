@@ -179,6 +179,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             advisoryMessage += "The presence of these gases may indicate various sources such as leaks, emissions from vehicles or industrial processes, or inadequate ventilation, posing risks to health and safety.\n\n"
             advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
+            last_airquality_alert_time = datetime.now()
     except Exception as e:
         print(f"Error code #6: An error occurred: {e}")
     try:
@@ -189,6 +190,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             advisoryMessage += "The presence of these gases may indicate a gas leak\n\n"
             advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=smokeInlineKeyboard)
+            last_smoke_alert_time = datetime.now()
     except Exception as e:
         print(f"Error code #7: An error occurred: {e}")
     return
