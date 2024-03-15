@@ -21,8 +21,8 @@ MQ135_MCP3008_PIN = 1 # MCP3008 CH1
 
 TEMPERATURE_COOLDOWN_PERIOD = 60 # 1 minute
 HUMIDITY_COOLDOWN_PERIOD = 60 # 1 minute
-AIRQUALITY_COOLDOWN_PERIOD = 60 # 1 minutes
-SMOKE_COOLDOWN_PERIOD = 60 # 1 minutes
+AIRQUALITY_COOLDOWN_PERIOD = 30 # 1/2 minutes
+SMOKE_COOLDOWN_PERIOD = 30 # 1/2 minutes
 
 # TODO, CALIBRATE
 SMOKE_THRESHOLD = 5.0
@@ -293,6 +293,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             try:
                 percMQ135 = mq135.MQPercentage()
                 last_airquality_alert_time = datetime.now()
+                last_smoke_alert_time = datetime.now()
                 
                 if percMQ135['rs_ro_ratio'] < 0:
                     advisoryMessage = "☁️MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
@@ -318,6 +319,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         while True: 
             try:
                 percMQ2 = mq2.MQPercentage()
+                last_airquality_alert_time = datetime.now()
                 last_smoke_alert_time = datetime.now()
                 
                 if percMQ2['rs_ro_ratio'] < 0:
