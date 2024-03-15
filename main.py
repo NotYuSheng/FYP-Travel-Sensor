@@ -181,33 +181,8 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     try:
         percMQ135 = mq135.MQPercentage()
         
-        """
-        lpgPPM = round(percMQ2["LPG"], 2)
-        coPPM = round(percMQ2["CO"], 2)
-        smokePPM = round(percMQ2["SMOKE"], 2)
-        propanePPM = round(percMQ2["PROPANE"], 2)
-        h2PPM = round(percMQ2["H2"], 2) # Hydrogen
-        alcoholPPM = round(percMQ2["ALCOHOL"], 2)
-        ch4PPM = round(percMQ2["CH4"], 2) # Methane
-
-        acetonPPM = round(percMQ135["ACETON"], 2)
-        toluenoPPM = round(percMQ135["TOLUENO"], 2)
-        alcoholPPM = round(percMQ135["ALCOHOL"], 2)
-        co2PPM = round(percMQ135["CO2"], 2)
-        nh4PPM = round(percMQ135["NH4"], 2)
-        coPPM = round(percMQ135["CO"], 2)
-        
-        if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
-            advisoryMessage += "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
-        if smokePPM > SMOKE_THRESHOLD:
-            advisoryMessage += "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation.\n"
-        if alcoholPPM > ALCOHOL_THRESHOLD:
-            advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
-        if advisoryMessage != "":
-            await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
-        """
         if percMQ135['rs_ro_ratio'] < 0:
-            advisoryMessage = "Alert: MQ135 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases."
+            advisoryMessage = "🚨AUTOMATED ALERT: \nMQ135 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases."
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
     except Exception as e:
         print(f"Error code #6: An error occurred: {e}")
@@ -215,7 +190,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         percMQ2 = mq2.MQPercentage()
 
         if percMQ2['rs_ro_ratio'] < 0:    
-            advisoryMessage = "Alert: MQ2 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases."
+            advisoryMessage = "🚨AUTOMATED ALERT: \nMQ2 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases."
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=smokeInlineKeyboard)
     except Exception as e:
         print(f"Error code #7: An error occurred: {e}")
@@ -337,22 +312,11 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (acetonPPM, toluenoPPM, alcoholPPM, co2PPM, nh4PPM, coPPM))
 
                 if percMQ135['rs_ro_ratio'] < 0:
-                    advisoryMessage += "Warning: MQ135 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases."
-                    """
-                    if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
-                        advisoryMessage += "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
-                    if smokePPM > SMOKE_THRESHOLD:
-                        advisoryMessage += "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation.\n"
-                    if alcoholPPM > ALCOHOL_THRESHOLD:
-                        advisoryMessage += "Warning: Alcohol has been detected in your environment. Please be cautious and ensure a safe and well-ventilated space.\n"
-                    if advisoryMessage != "":
-                        await update.message.reply_text(text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
-                        break
-                    """
+                    advisoryMessage = "Warning: MQ135 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases."
                 else:
                     advisoryMessage = "Great news! No dangerous gases have been detected in your environment. Enjoy the peace of mind and breathe freely in a safe and healthy atmosphere."
-                    await update.message.reply_text(text=advisoryMessage)
-                    break
+                await update.message.reply_text(text=advisoryMessage)
+                break
             except Exception as e:
                 print(f"Error code #4: An error occurred: {e}")
                 if (count > 3):
@@ -373,14 +337,9 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 print("SMOKE: %g ppm" % (percMQ2["SMOKE"]))
                 
                 if percMQ2['rs_ro_ratio'] < 0:
-                    advisoryMessage = "Warning: MQ2 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases."
-                    """
-                    if smokePPM > SMOKE_THRESHOLD:
-                        advisoryMessage = "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation."
-                    """
+                    advisoryMessage = "🚨 Warning: MQ2 gas sensor detected the presence of harmful gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases."
                 else:
                     advisoryMessage = "Your environment is currently clear of smoke. Enjoy the clean air!"
-                
                 await update.message.reply_text(text=advisoryMessage, reply_markup=smokeInlineKeyboard)
             except Exception as e:
                 print(f"Error code #5: An error occurred: {e}")
