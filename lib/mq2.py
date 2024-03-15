@@ -74,6 +74,7 @@ class MQ2():
     def MQPercentage(self):
         val = {}
         read = self.MQRead(self.MQ_PIN)
+        val["rs_ro_ratio"] = read/self.Ro
         val["LPG"]  = self.MQGetGasPercentage(read/self.Ro, self.GAS_LPG)
         val["CO"]       = self.MQGetGasPercentage(read/self.Ro, self.GAS_CO)
         val["SMOKE"]    = self.MQGetGasPercentage(read/self.Ro, self.GAS_SMOKE)
