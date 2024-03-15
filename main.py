@@ -21,8 +21,8 @@ MQ135_MCP3008_PIN = 1 # MCP3008 CH1
 
 TEMPERATURE_COOLDOWN_PERIOD = 60 # 1 minute
 HUMIDITY_COOLDOWN_PERIOD = 60 # 1 minute
-AIRQUALITY_COOLDOWN_PERIOD = 30 # 1/2 minutes
-SMOKE_COOLDOWN_PERIOD = 30 # 1/2 minutes
+AIRQUALITY_COOLDOWN_PERIOD = 60 # 1/2 minutes
+SMOKE_COOLDOWN_PERIOD = 60 # 1/2 minutes
 
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
