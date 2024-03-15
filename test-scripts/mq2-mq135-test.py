@@ -1,5 +1,5 @@
-from lib.mq2 import *
-from lib.mq135 import *
+from ..lib.mq2 import *
+from ..lib.mq135 import *
 import sys, time, os
 
 #try:
