@@ -295,7 +295,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 last_smoke_alert_time = datetime.now()
                 
                 if percMQ135['rs_ro_ratio'] < 0:
-                    advisoryMessage = "☁️MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
+                    advisoryMessage = "Here: MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
                     advisoryMessage += "The presence of these gases may indicate various sources such as leaks, emissions from vehicles or industrial processes, or inadequate ventilation, posing risks to health and safety.\n\n"
                     advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
                 else:
