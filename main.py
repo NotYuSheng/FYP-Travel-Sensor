@@ -24,8 +24,6 @@ HUMIDITY_COOLDOWN_PERIOD = 60 # 1 minute
 AIRQUALITY_COOLDOWN_PERIOD = 30 # 1/2 minutes
 SMOKE_COOLDOWN_PERIOD = 30 # 1/2 minutes
 
-COMMAND = 0
-
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
 last_temperature_alert_time = datetime.now() - timedelta(seconds=TEMPERATURE_COOLDOWN_PERIOD)
@@ -58,6 +56,7 @@ TELEBOT_API_KEY = os.environ['TELEBOT_API_KEY']
 
 # Static variables
 STANDARD_ERROR_MESSAGE = "Seems like something expected has occured...\nThis incident has been recorded"
+COMMAND = 0
 
 # Initialize GPIO
 GPIO.setwarnings(False)
@@ -231,7 +230,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     
     context.job_queue.run_repeating(alarm, 10, chat_id=chat_id, name=str(chat_id))
     
-    return
+    return COMMAND
 
 async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Stores the selected command and ask for next command."""
@@ -352,7 +351,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         await update.message.reply_text(
             STANDARD_ERROR_MESSAGE
         )
-    return
+    return COMMAND
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
