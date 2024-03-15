@@ -179,7 +179,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         print(f"    Note: Errors happen fairly often, DHT11's are hard to read, don't worry and just requery.")
 
     try:
-        percMQ2 = mq2.MQPercentage()
+        percMQ135 = mq135.MQPercentage()
         
         """
         lpgPPM = round(percMQ2["LPG"], 2)
