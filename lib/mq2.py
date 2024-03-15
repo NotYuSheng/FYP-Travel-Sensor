@@ -181,4 +181,7 @@ class MQ2():
         print(f"pcurve[0]: {pcurve[0]}")
         print(f"pcurve[1]: {pcurve[1]}")
         print(f"pcurve[2]: {pcurve[2]}")
-        return (math.pow(10,( ((math.log(rs_ro_ratio)-pcurve[1])/ pcurve[2]) + pcurve[0])))
+        if (rs_ro_ratio <= 0):
+            return 0;
+        else:
+            return (math.pow(10,( ((math.log(rs_ro_ratio)-pcurve[1])/ pcurve[2]) + pcurve[0])))
