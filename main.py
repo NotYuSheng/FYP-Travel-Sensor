@@ -374,10 +374,10 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 
                 if percMQ2['rs_ro_ratio'] < 0:
                     advisoryMessage = "Alert: MQ2 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases."
-                """
-                if smokePPM > SMOKE_THRESHOLD:
-                    advisoryMessage = "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation."
-                """
+                    """
+                    if smokePPM > SMOKE_THRESHOLD:
+                        advisoryMessage = "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation."
+                    """
                 else:
                     advisoryMessage = "Your environment is currently clear of smoke. Enjoy the clean air!"
                 
