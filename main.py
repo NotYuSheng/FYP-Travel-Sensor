@@ -175,7 +175,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         percMQ135 = mq135.MQPercentage()
         if percMQ135['rs_ro_ratio'] < 0:
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
-            advisoryMessage = "MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
+            advisoryMessage += "MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate various sources such as leaks, emissions from vehicles or industrial processes, or inadequate ventilation, posing risks to health and safety.\n\n"
             advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
