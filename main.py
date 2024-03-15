@@ -337,7 +337,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (acetonPPM, toluenoPPM, alcoholPPM, co2PPM, nh4PPM, coPPM))
 
                 if percMQ135['rs_ro_ratio'] < 0:
-                    advisoryMessage += "Alert: MQ135 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases."
+                    advisoryMessage += "Warning: MQ135 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases."
                     """
                     if lpgPPM > LPG_THRESHOLD or ch4PPM > CH4_THRESHOLD or propanePPM > PROPANE_THRESHOLD:
                         advisoryMessage += "Warning: Flammable gas detected in your environment. Please take immediate precautions and assess the situation.\n"
@@ -373,7 +373,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 print("SMOKE: %g ppm" % (percMQ2["SMOKE"]))
                 
                 if percMQ2['rs_ro_ratio'] < 0:
-                    advisoryMessage = "Alert: MQ2 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases."
+                    advisoryMessage = "Warning: MQ2 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases."
                     """
                     if smokePPM > SMOKE_THRESHOLD:
                         advisoryMessage = "Warning: Smoke has been detected in your environment. Please take precautions and assess the situation."
