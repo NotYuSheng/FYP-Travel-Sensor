@@ -24,12 +24,7 @@ HUMIDITY_COOLDOWN_PERIOD = 60 # 1 minute
 AIRQUALITY_COOLDOWN_PERIOD = 30 # 1/2 minutes
 SMOKE_COOLDOWN_PERIOD = 30 # 1/2 minutes
 
-# TODO, CALIBRATE
-SMOKE_THRESHOLD = 5.0
-ALCOHOL_THRESHOLD = 5.0
-LPG_THRESHOLD = 5.0
-CH4_THRESHOLD = 5.0
-PROPANE_THRESHOLD = 5.0
+COMMAND = 0
 
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
