@@ -140,7 +140,7 @@ def getHumidityAdvMsg (humidity: float) -> str:
 async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send message when sensor value exceed threshold."""
 
-    global automatedAlertFlag, last_temperature_alert_time, last_humidity_alert_time, last_airquality_alert_time
+    global automatedAlertFlag, last_temperature_alert_time, last_humidity_alert_time, last_airquality_alert_time, last_smoke_alert_time
     
     # End process if alert disabled
     if (not automatedAlertFlag):
@@ -171,6 +171,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         print(f"Error code #1: An error occurred: {e}")
         print(f"    Note: Errors happen fairly often, DHT11's are hard to read, don't worry and just requery.")
 
+    # Air Quality Alert
     try:
         percMQ135 = mq135.MQPercentage()
         if percMQ135['rs_ro_ratio'] < 0:
@@ -182,6 +183,8 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             last_airquality_alert_time = datetime.now()
     except Exception as e:
         print(f"Error code #6: An error occurred: {e}")
+    
+    # Smoke Alert
     try:
         percMQ2 = mq2.MQPercentage()
         if percMQ2['rs_ro_ratio'] < 0:    
@@ -288,7 +291,6 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             try:
                 percMQ135 = mq135.MQPercentage()
                 last_airquality_alert_time = datetime.now()
-                last_smoke_alert_time = datetime.now()
                 
                 if percMQ135['rs_ro_ratio'] < 0:
                     advisoryMessage = "MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
@@ -314,7 +316,6 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         while True: 
             try:
                 percMQ2 = mq2.MQPercentage()
-                last_airquality_alert_time = datetime.now()
                 last_smoke_alert_time = datetime.now()
                 
                 if percMQ2['rs_ro_ratio'] < 0:
