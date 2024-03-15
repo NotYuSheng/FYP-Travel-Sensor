@@ -32,7 +32,7 @@ while True:
     print("---------MQ135---------")
     print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (acetonPPM, toluenoPPM, alcoholPPM, co2PPM, nh4PPM, coPPM))
 
-    print(f"rs_ro_ratio: {val["rs_ro_ratio"]}")
+    print(f"rs_ro_ratio: {val['rs_ro_ratio']}")
     
     time.sleep(0.1)
 """
