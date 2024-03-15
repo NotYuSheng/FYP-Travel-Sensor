@@ -392,7 +392,7 @@ if __name__ == "__main__":
 
     while True:
         print(f"Smoke: {adc.read(MQ2_MCP3008_PIN)}")
-        print(f"Air Quality: {adc.read(MQ135_MCP3008_PIN)")
+        print(f"Air Quality: {adc.read(MQ135_MCP3008_PIN)}")
     
     print("Initialization complete!")
     main()
