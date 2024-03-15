@@ -206,7 +206,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         if advisoryMessage != "":
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
         """
-        if percMQ2['rs_ro_ratio'] < 0:
+        if percMQ135['rs_ro_ratio'] < 0:
             advisoryMessage = "Alert: MQ135 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases."
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
     except Exception as e:
@@ -218,7 +218,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             advisoryMessage = "Alert: MQ2 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases."
             await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=smokeInlineKeyboard)
     except Exception as e:
-        print(f"Error code #6: An error occurred: {e}")
+        print(f"Error code #7: An error occurred: {e}")
     return
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
