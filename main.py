@@ -23,8 +23,8 @@ HUMIDITY_COOLDOWN_PERIOD = 60 # 1 minute
 AIRQUALITY_COOLDOWN_PERIOD = 60 # 1 minutes
 SMOKE_COOLDOWN_PERIOD = 60 # 1 minutes
 
-MQ2_THRESHOLD = 0.5
-MQ135_THRESHOLD = 0.5
+MQ2_THRESHOLD = 2000
+MQ135_THRESHOLD = 800
 
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
