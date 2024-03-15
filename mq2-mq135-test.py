@@ -1,20 +1,12 @@
 import sys, time, os
-
-# Add the 'lib' directory to the Python path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-lib_dir = os.path.join(current_dir, '..', 'lib')
-sys.path.append(lib_dir)
-
 from mq2 import *
 from mq135 import *
 
-#try:
-print("Press CTRL+C to abort.")
-
-mq2 = MQ2();
-mq135 = MQ135();
-
 try:
+    mq2 = MQ2();
+    mq135 = MQ135();
+    print("Press CTRL+C to abort.")
+    
     while True:
         percMQ2 = mq2.MQPercentage()
         percMQ135 = mq135.MQPercentage()
