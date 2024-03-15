@@ -19,10 +19,10 @@ DHT11_PIN = board.D17 # GPIO 17
 MQ2_MCP3008_PIN = 0 # MCP3008 CH0
 MQ135_MCP3008_PIN = 1 # MCP3008 CH1
 
-TEMPERATURE_COOLDOWN_PERIOD = 300 # 5 minute
-HUMIDITY_COOLDOWN_PERIOD = 300 # 5 minute
-AIRQUALITY_COOLDOWN_PERIOD = 300 # 5 minutes
-SMOKE_COOLDOWN_PERIOD = 300 # 5 minutes
+TEMPERATURE_COOLDOWN_PERIOD = 60 # 1 minute
+HUMIDITY_COOLDOWN_PERIOD = 60 # 1 minute
+AIRQUALITY_COOLDOWN_PERIOD = 60 # 1 minutes
+SMOKE_COOLDOWN_PERIOD = 60 # 1 minutes
 
 # TODO, CALIBRATE
 SMOKE_THRESHOLD = 5.0
@@ -288,29 +288,9 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         while True: 
             try:
                 advisoryMessage = ""
-                percMQ2 = mq2.MQPercentage()
                 percMQ135 = mq135.MQPercentage()
-
-                lpgPPM = round(percMQ2["LPG"], 2)
-                coPPM = round(percMQ2["CO"], 2)
-                smokePPM = round(percMQ2["SMOKE"], 2)
-                propanePPM = round(percMQ2["PROPANE"], 2)
-                h2PPM = round(percMQ2["H2"], 2) # Hydrogen
-                alcoholPPM = round(percMQ2["ALCOHOL"], 2)
-                ch4PPM = round(percMQ2["CH4"], 2) # Methane
-        
-                acetonPPM = round(percMQ135["ACETON"], 2)
-                toluenoPPM = round(percMQ135["TOLUENO"], 2)
-                alcoholPPM = round(percMQ135["ALCOHOL"], 2)
-                co2PPM = round(percMQ135["CO2"], 2)
-                nh4PPM = round(percMQ135["NH4"], 2)
-                coPPM = round(percMQ135["CO"], 2)
+                last_airquality_alert_time = datetime.now()
                 
-                print("----------MQ2----------")
-                print("LPG: %g ppm, CO: %g ppm, Smoke %g ppm, Propane %g ppm, H2 %g ppm, Alcohol: %g ppm, CH4: %g ppm" % (lpgPPM, coPPM, smokePPM, propanePPM, h2PPM, alcoholPPM, ch4PPM))
-                print("---------MQ135---------")
-                print("ACETON: %g ppm, TOLUENO: %g ppm, ALCOHOL: %g ppm, CO2: %g ppm, NH4: %g ppm, CO: %g ppm" % (acetonPPM, toluenoPPM, alcoholPPM, co2PPM, nh4PPM, coPPM))
-
                 if percMQ135['rs_ro_ratio'] < 0:
                     advisoryMessage = "Warning: MQ135 gas sensor detected the presence of gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases."
                 else:
@@ -333,8 +313,7 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         while True: 
             try:
                 percMQ2 = mq2.MQPercentage()
-                smokePPM = percMQ2["SMOKE"]
-                print("SMOKE: %g ppm" % (percMQ2["SMOKE"]))
+                last_smoke_alert_time = datetime.now()
                 
                 if percMQ2['rs_ro_ratio'] < 0:
                     advisoryMessage = "🚨 Warning: MQ2 gas sensor detected the presence of harmful gas in your environment. Please take immediate precautions and assess the situation. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases."
