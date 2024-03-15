@@ -23,8 +23,8 @@ HUMIDITY_COOLDOWN_PERIOD = 60 # 1 minute
 AIRQUALITY_COOLDOWN_PERIOD = 60 # 1 minutes
 SMOKE_COOLDOWN_PERIOD = 60 # 1 minutes
 
-MQ2_THRESHOLD = 3
-MQ135_THRESHOLD = 3
+MQ2_THRESHOLD = 0.5
+MQ135_THRESHOLD = 0.5
 
 automatedAlertFlag = 1 # When set(1), automated alerts will trigger per period
 
@@ -176,6 +176,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     # Air Quality Alert
     try:
         if adc.read(MQ135_MCP3008_PIN) >= MQ135_THRESHOLD:
+            print(f"Air Quality: {adc.read(MQ135_MCP3008_PIN)}")
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
             advisoryMessage += "MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate various sources such as leaks, emissions from vehicles or industrial processes, or inadequate ventilation, posing risks to health and safety.\n\n"
@@ -187,7 +188,8 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     
     # Smoke Alert
     try:
-        if adc.read(MQ2_MCP3008_PIN) >= MQ2_THRESHOLD:    
+        if adc.read(MQ2_MCP3008_PIN) >= MQ2_THRESHOLD:
+            print(f"Smoke: {adc.read(MQ2_MCP3008_PIN)}")
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
             advisoryMessage += "MQ2 gas sensor detected the presence of gas in your environment. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate a gas leak\n\n"
