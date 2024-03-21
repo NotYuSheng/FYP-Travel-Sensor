@@ -1,0 +1,16 @@
+received SIGINT
+
+Calibrating MQ-2...
+Calibration of MQ-2 is done...
+MQ-2 Ro=1.121104 kohm
+
+
+Calibrating MQ-135...
+Traceback (most recent call last):
+  File "/home/admin/main/main.py", line 432, in <module>
+    mq135 = MQ135(MQ135_MCP3008_PIN)
+  File "/home/admin/main/mq135.py", line 63, in __init__
+    self.Ro = self.MQCalibration(self.MQ_PIN)
+  File "/home/admin/main/mq135.py", line 110, in MQCalibration
+    time.sleep(self.CALIBRATION_SAMPLE_INTERVAL/1000.0)
+KeyboardInterrupt
