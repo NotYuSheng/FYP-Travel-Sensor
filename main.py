@@ -201,8 +201,6 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             last_smoke_alert_time = datetime.now()
     except Exception as e:
         print(f"Error code #7: An error occurred: {e}")
-    # TODO REMOVE LATER
-    await context.bot.send_message(job.chat_id, text="SENDING ALARM")
     return
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
