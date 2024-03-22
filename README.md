@@ -1,4 +1,4 @@
-# Travel sensor (FYP)
+# Travel sensor
 
 A service-free sensor-based application
 
@@ -11,5 +11,3 @@ TELEBOT_API_KEY= **********
 ```
 
 ## App usage:
-# FYP-Travel-Sensor
-
