@@ -1,8 +1,8 @@
+# Note: Move this script outside this directory before using
 import sys, time, os
 from lib.mq2 import *
 from lib.mq135 import *
 
-#try:
 mq2 = MQ2();
 mq135 = MQ135();
 print("Press CTRL+C to abort.")
@@ -36,8 +36,3 @@ while True:
     print(f"rs_ro_ratio: {round(percMQ135['rs_ro_ratio'], 2)}")
     
     time.sleep(0.1)
-"""
-except Exception as e:
-    print(e)
-    print("\nAbort by user")
-"""
