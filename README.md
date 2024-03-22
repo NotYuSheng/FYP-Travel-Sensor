@@ -10,4 +10,4 @@ The key should then be store on the .env file as
 TELEBOT_API_KEY= **********
 ```
 
-## App usage:
+## Library usage
