@@ -180,11 +180,13 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     print(f"Air Quality: {airQualityADC}")
     try:
         if airQualityADC >= MQ135_THRESHOLD:
+            print("AIRQUALITY TRIGGERED")
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
             advisoryMessage += "MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate various sources such as leaks, emissions from vehicles or industrial processes, or inadequate ventilation, posing risks to health and safety.\n\n"
             advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
             if (datetime.now() - last_airquality_alert_time).total_seconds() >= AIRQUALITY_COOLDOWN_PERIOD:
+                print("SENDING AIR")
                 await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
                 last_airquality_alert_time = datetime.now()
     except Exception as e:
@@ -195,15 +197,18 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     print(f"Smoke: {smokeADC}")
     try:
         if adc.read(smokeADC) >= MQ2_THRESHOLD:
+            print("SMOKE TRIGGERED")
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
             advisoryMessage += "MQ2 gas sensor detected the presence of gas in your environment. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate a gas leak\n\n"
             advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
             if (datetime.now() - last_smoke_alert_time).total_seconds() >= SMOKE_COOLDOWN_PERIOD:
+                print("SENDING SMOKE MESSAGE")
                 await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=smokeInlineKeyboard)
                 last_smoke_alert_time = datetime.now()
     except Exception as e:
         print(f"Error code #7: An error occurred: {e}")
+        
     return
     
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
