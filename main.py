@@ -176,9 +176,10 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         print(f"    Note: Errors happen fairly often, DHT11's are hard to read, don't worry and just requery.")
 
     # Air Quality Alert
-    print(f"Air Quality: {adc.read(MQ135_MCP3008_PIN)}")
+    airQualityADC = adc.read(MQ135_MCP3008_PIN)
+    print(f"Air Quality: {airQualityADC}")
     try:
-        if adc.read(MQ135_MCP3008_PIN) >= MQ135_THRESHOLD:
+        if airQualityADC >= MQ135_THRESHOLD:
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
             advisoryMessage += "MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate various sources such as leaks, emissions from vehicles or industrial processes, or inadequate ventilation, posing risks to health and safety.\n\n"
@@ -189,9 +190,10 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         print(f"Error code #6: An error occurred: {e}")
     
     # Smoke Alert
-    print(f"Smoke: {adc.read(MQ2_MCP3008_PIN)}")
+    smokeADC = adc.read(MQ2_MCP3008_PIN)
+    print(f"Smoke: {smokeADC}")
     try:
-        if adc.read(MQ2_MCP3008_PIN) >= MQ2_THRESHOLD:
+        if adc.read(smokeADC) >= MQ2_THRESHOLD:
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
             advisoryMessage += "MQ2 gas sensor detected the presence of gas in your environment. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate a gas leak\n\n"
