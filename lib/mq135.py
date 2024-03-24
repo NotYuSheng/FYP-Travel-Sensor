@@ -1,5 +1,5 @@
-#https://github.com/tutRPi/Raspberry-Pi-Gas-Sensor-MQ/blob/master/mq.py
-#https://github.com/farmaker47/Raspberry-to-assess-food-quality/blob/main/code/mq135.py
+# Library Origin:    https://github.com/tutRPi/Raspberry-Pi-Gas-Sensor-MQ/blob/master/mq.py
+# Graph values from: https://github.com/farmaker47/Raspberry-to-assess-food-quality/blob/main/code/mq135.py
 
 import time
 import math
