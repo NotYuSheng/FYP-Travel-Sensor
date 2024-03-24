@@ -184,8 +184,9 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             advisoryMessage += "MQ135 gas sensor detected the presence of gas in your environment. The detected gas may include ammonia, nitrogen oxides, benzene, alcohol, carbon dioxide (CO2), or other harmful gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate various sources such as leaks, emissions from vehicles or industrial processes, or inadequate ventilation, posing risks to health and safety.\n\n"
             advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
-            await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
-            last_airquality_alert_time = datetime.now()
+            if (datetime.now() - last_airquality_alert_time).total_seconds() >= AIRQUALITY_COOLDOWN_PERIOD:
+                await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=airqualityInlineKeyboard)
+                last_airquality_alert_time = datetime.now()
     except Exception as e:
         print(f"Error code #6: An error occurred: {e}")
     
@@ -198,8 +199,9 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
             advisoryMessage += "MQ2 gas sensor detected the presence of gas in your environment. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases.\n\n"
             advisoryMessage += "The presence of these gases may indicate a gas leak\n\n"
             advisoryMessage += "Take immediate action to ventilate area, evacuate, and contact authorities. "
-            await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=smokeInlineKeyboard)
-            last_smoke_alert_time = datetime.now()
+            if (datetime.now() - last_smoke_alert_time).total_seconds() >= SMOKE_COOLDOWN_PERIOD:
+                await context.bot.send_message(job.chat_id, text=advisoryMessage, reply_markup=smokeInlineKeyboard)
+                last_smoke_alert_time = datetime.now()
     except Exception as e:
         print(f"Error code #7: An error occurred: {e}")
     return
@@ -222,9 +224,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             + "TravelSensor is your ultimate travel companion, ensuring your safety and well-being. Linked to a Raspberry Pi device attached to your bag, our bot provides real-time environmental data, giving you peace of mind on your journeys."
             + "\n\n"
             + "🚨 Alerts and Notifications"
+            + "\n"
             + "Receive instant updates on temperature, humidity, and various gases you are exposed to. If you encounter extreme conditions, TravelSensor will notify you, allowing you to take immediate action and protect yourself."
             + "\n\n"
             + "📊 Query Data"
+            + "\n"
             + "Want to check the current status of your environment? Simply ask TravelSensor for the latest environmental data, and it will provide you with detailed information to ensure everything is in order."
             + "\n\n"
             + "Start your worry-free travels with TravelSensor today! Type /help to explore all available commands and features. Safe travels!")
