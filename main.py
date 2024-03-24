@@ -196,7 +196,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     smokeADC = adc.read(MQ2_MCP3008_PIN)
     print(f"Smoke: {smokeADC}")
     try:
-        if adc.read(smokeADC) >= MQ2_THRESHOLD:
+        if smokeADC >= MQ2_THRESHOLD:
             print("SMOKE TRIGGERED")
             advisoryMessage = "🚨AUTOMATED ALERT: \n"
             advisoryMessage += "MQ2 gas sensor detected the presence of gas in your environment. The detected gas may include LPG, propane, hydrogen, methane, smoke, or other combustible gases.\n\n"
