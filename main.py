@@ -50,7 +50,6 @@ airqualityInlineKeyboard = InlineKeyboardMarkup([
 
 smokeInlineKeyboard = InlineKeyboardMarkup([
     [InlineKeyboardButton("More details", url="https://www.haze.gov.sg/")],
-    #[InlineKeyboardButton("Button 2", callback_data="button2_data")],
 ])
 
 # Load environment variables from .env file
@@ -106,39 +105,39 @@ def getTemperatureAdvMsg (temperature: float) -> str:
     return advisoryMessage
     
 def getHumidityAdvMsg (humidity: float) -> str:
-    if humidity < 20:
+    if humidity < 30:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
-            "Category: 🌵 Dry \n"
-            "Extremely low humidity! Be mindful of potential dehydration and increased risk of static electricity".format(humidity)
+            "Category: 🏜️ Low Humidity \n"
+            "Low humidity levels. Stay hydrated to avoid dehydration.".format(humidity)
         )
         
-    elif humidity >= 20 and humidity < 40:
+    elif humidity >= 30 and humidity < 50:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
             "Category: 🍃 Comfortable \n"
-            "Enjoy the comfortable humidity levels!".format(humidity)
+            "Comfortable humidity levels. Enjoy the weather!".format(humidity)
         )            
         
-    elif humidity >= 40 and humidity < 60:
+    elif humidity >= 50 and humidity < 70:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
-            "Category: 🌱 Moderate \n"
-            "Moderate Humidity levels. Stay hydrated and comfortable".format(humidity)
+            "Category: 🌧️ Moderate \n"
+            "Moderate humidity levels. Stay hydrated and comfortable.".format(humidity)
         )
     
-    elif humidity >= 60 and humidity < 80:
+    elif humidity >= 70 and humidity < 85:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
-            "Category: 💧 Humid \n"
-            "Humidity on the rise! Be cautious of potential discomfort due to higher moisture levels".format(humidity)
+            "Category: 💧 High Humidity \n"
+            "Humidity on the rise! Be cautious of potential discomfort!".format(humidity)
         )
     
-    elif humidity >= 80:
+    elif humidity >= 85:
         advisoryMessage = (
             "Humidity: {:.1f}% \n"
             "Category: 🌊 High \n"
-            "High humidity alert! Take precautions to stay cool and comfortable".format(humidity)
+            "Very high humidity alert! Take precautions to stay cool and comfortable".format(humidity)
         )
     return advisoryMessage
 
@@ -165,7 +164,7 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
                 last_temperature_alert_time = datetime.now()
         
         # Humidity Alerts
-        if currentHumidity < 20 or currentHumidity >= 60:
+        if currentHumidity < 30 or currentHumidity >= 70:
             advisoryMessage = "🚨AUTOMATED ALERT: \n" + getHumidityAdvMsg(currentHumidity)
             
             if (datetime.now() - last_humidity_alert_time).total_seconds() >= HUMIDITY_COOLDOWN_PERIOD:
