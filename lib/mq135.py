@@ -38,7 +38,7 @@ class MQ135():
                                             # with these two points, a line is formed which is "approximately equivalent"
                                             # to the original curve. 
                                             # data format:{ x, y, slope}; point1: (lg10, 0.18), point2: (lg200, -0.24) 
-        self.TOLUENOCurve = [1.0,0.2,-0.30] # two points are taken from the curve. 
+        self.TOLUENECurve = [1.0,0.2,-0.30] # two points are taken from the curve. 
                                             # with these two points, a line is formed which is "approximately equivalent" 
                                             # to the original curve.
                                             # data format:[ x, y, slope]; point1: (lg10, 0.2), point2: (lg200, -0.19)
