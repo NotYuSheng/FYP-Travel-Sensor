@@ -9,3 +9,6 @@ The key should then be store on the .env file as
 ```
 TELEBOT_API_KEY= 'PASTE YOUR API KEY HERE'
 ```
+
+## Usage
+The 3D model files do not need to be cloned
