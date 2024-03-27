@@ -11,4 +11,4 @@ TELEBOT_API_KEY= 'PASTE YOUR API KEY HERE'
 ```
 
 ## Usage
-The 3D model files do not need to be cloned
+The 3D Models folder do not need to be cloned
