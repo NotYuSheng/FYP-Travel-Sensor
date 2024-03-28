@@ -10,5 +10,9 @@ The key should then be store on the .env file as
 TELEBOT_API_KEY= 'PASTE YOUR API KEY HERE'
 ```
 
-## Usage
-The 3D Models folder do not need to be cloned
+## Instructions for Cloning
+When cloning this repository, please note that certain folders are not essential for regular use and can be excluded to save space and download time. These folders include:
+
+- archive: Contains deprecated files.
+- 3d models: Contains 3D models associated with the project.
+- schematic: Contains schematic diagrams for electronics.
