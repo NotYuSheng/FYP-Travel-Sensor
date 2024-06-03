@@ -27,7 +27,7 @@ TELEBOT_API_KEY= 'PASTE YOUR API KEY HERE'
 ```
 
 ## Instructions for Cloning
-When cloning this repository, please note that certain folders are not essential for regular use and can be excluded to save space and download time. These folders include:
+When cloning this repository, please note that certain folders contain non-functioning components and may be excluded to save space. These folders include:
 
 - archive: Contains deprecated files.
 - 3d models: Contains 3D models associated with the project.
