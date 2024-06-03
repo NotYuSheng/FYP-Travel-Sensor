@@ -8,7 +8,7 @@ This project aims to develop a portable environmental monitoring device that pow
 
 The report outlines the considerations taken from each stage of the project’s progressions, encompassing research, ideation, design, implementation, and tests conducted, exploring technologies from three main domains: electronics, 3D modeling and software programming. It offers insights into the challenges encountered, and the solutions devised in creating a reliable, portable, self-sustaining environmental monitoring device.
 
-DR-NTU Link: https://dr.ntu.edu.sg/handle/10356/176453
+DR-NTU: https://dr.ntu.edu.sg/handle/10356/176453
 
 ## Project Initial Brief
 
