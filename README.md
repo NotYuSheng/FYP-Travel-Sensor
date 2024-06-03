@@ -24,5 +24,5 @@ TELEBOT_API_KEY= 'PASTE YOUR API KEY HERE'
 When cloning this repository, please note that certain folders contain non-functioning components and may be excluded to save space. These folders include:
 
 - archive: Contains deprecated files.
-- 3d models: Contains 3D models associated with the project.
-- schematic: Contains schematic diagrams for electronics.
+- 3d Models: Contains 3D models associated with the project.
+- Schematic: Contains schematic diagrams for electronics.
