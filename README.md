@@ -1,4 +1,4 @@
-# Travel sensor
+# Travel Sensor
 
 Digital Repository of NTU (DR-NTU): [[Paper](https://dr.ntu.edu.sg/handle/10356/176453)]
 
