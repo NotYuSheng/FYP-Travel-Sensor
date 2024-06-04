@@ -19,7 +19,7 @@ The key should then be store on the .env file as
 TELEBOT_API_KEY= 'PASTE YOUR API KEY HERE'
 ```
 
-### File cloning
+### Repo cloning
 When cloning this repository, please note that certain folders contain non-functioning components and may be excluded to save space. These folders include:
 
 - archive: Contains deprecated files.
